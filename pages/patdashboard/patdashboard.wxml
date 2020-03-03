@@ -1,0 +1,7 @@
+<!--pages/patdashboard/patdashboard.wxml-->
+<view class="i-sticky-demo-des">
+    我的咨询
+</view>
+<view class="i-sticky-demo-des">
+    查看下面我的咨询请求以及医生的回复
+</view>

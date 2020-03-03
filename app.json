@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/docregister/docregister",
+    "pages/docconsult/docconsult",
+    "pages/docdashboard/docdashboard",
+    "pages/patdashboard/patdashboard",
+    "pages/doclogin/doclogin",
+    "pages/patlogin/patlogin"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

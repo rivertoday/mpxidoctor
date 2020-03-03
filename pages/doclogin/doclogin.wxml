@@ -1,0 +1,10 @@
+<!--pages/doclogin/doclogin.wxml-->
+<i-row>
+  <i-input title="手机：" type="number" bind:blur="inputMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
+  <i-input title="密码：" type="password" bind:blur="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您的密码" />
+  </i-row>
+<i-row>
+  <view>
+    <i-button type="success" bind:click="doclogin" size="large">登录</i-button>
+  </view>
+</i-row>

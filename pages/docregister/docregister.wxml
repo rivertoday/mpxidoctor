@@ -1,0 +1,32 @@
+<!--pages/docregister/docregister.wxml-->
+<i-row>
+  <i-input title="您的姓名" type="textarea" bind:blur="inputDocNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
+  <i-input title="您的手机" type="textarea" bind:blur="inputDocMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
+  <i-input title="诊所名称" type="textarea" bind:blur="inputClinicNameEvent" mode="wrapped" maxlength="100" placeholder="请填写您所在的诊所名称"  />
+</i-row>
+<i-row>
+    <i-icon type="camera" size="56" color="#80848f" />
+    <text>上传图片（您的头像和诊所图片）</text>
+</i-row>
+<i-row>
+  <view class="question-images clearFloat">
+    <block wx:for="{{images}}" wx:key="*this">
+      <view class="q-image-wrap">
+        <!-- 图片缩略图  -->
+        <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
+        <!-- 移除图片的按钮  -->
+        <view class="q-image-remover" data-idx="{{index}}" bindtap="removeImage">
+          <i-icon type="delete_fill" size="28" color="#FFFAFA" />
+        </view>
+      </view>
+    </block>
+    <view class='uploadImgBtn' bindtap="chooseImage" wx:if="{{images.length < 2}}">
+      <i-icon type="add" size="56" color="#80848f" />
+    </view>
+  </view>
+</i-row>
+<i-row>
+  <view>
+    <i-button type="success" bind:click="submitRegInfo" size="large">提交</i-button>
+  </view>
+</i-row>

@@ -1,0 +1,12 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="../../images/patient.jpg" mode="cover"></image>
+    <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" bindtap="tryPatient"> 我是患者 </button>
+    <image class="userinfo-avatar" src="../../images/doctor.jpg" mode="cover"></image>
+    <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" bindtap="tryDoctor"> 我是医生 </button>
+  </view>
+</view>
