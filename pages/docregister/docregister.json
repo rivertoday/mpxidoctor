@@ -5,7 +5,8 @@
     "i-input": "../../dist/input/index",
     "i-icon": "../../dist/icon/index",
     "i-button": "../../dist/button/index",
-    "i-tag": "../../dist/tag/index"
+    "i-tag": "../../dist/tag/index",
+    "i-modal": "../../dist/modal/index"
   },
   "navigationBarTitleText": "医生注册"
 }

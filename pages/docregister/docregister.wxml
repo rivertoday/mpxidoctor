@@ -3,10 +3,20 @@
   <i-input title="您的姓名" type="textarea" bind:blur="inputDocNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
   <i-input title="您的手机" type="textarea" bind:blur="inputDocMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
   <i-input title="诊所名称" type="textarea" bind:blur="inputClinicNameEvent" mode="wrapped" maxlength="100" placeholder="请填写您所在的诊所名称"  />
+  <i-input title="密码" type="password" bind:blur="inputDocPassEvent" mode="wrapped" maxlength="20" placeholder="请设置您的登录密码"  />
+  <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码"  />
+</i-row>
+<i-row>
+    <i-col span="16" i-class="col-class">
+      <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="wrapped" maxlength="20" placeholder="请输入验证码" />
+    </i-col>
+    <i-col span="8" i-class="col-class">
+      <i-button bind:click="sendSms" size="small">{{valcodeinfo}}</i-button>
+    </i-col>
 </i-row>
 <i-row>
     <i-icon type="camera" size="56" color="#80848f" />
-    <text>上传图片（您的头像和诊所图片）</text>
+    <text>上传两张图片（您的头像和诊所图片）</text>
 </i-row>
 <i-row>
   <view class="question-images clearFloat">
@@ -30,3 +40,11 @@
     <i-button type="success" bind:click="submitRegInfo" size="large">提交</i-button>
   </view>
 </i-row>
+
+
+<i-modal visible="{{ visibleDlg }}" bind:ok="handleDlgClose" bind:cancel="handleDlgClose">
+    <view>请您补充{{hintDlginfo}}</view>
+</i-modal>
+<i-modal visible="{{ visiblePass }}" bind:ok="handlePassClose" bind:cancel="handlePassClose">
+    <view>对不起，您两次输入的密码不一致！</view>
+</i-modal>
