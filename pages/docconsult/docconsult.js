@@ -1,4 +1,8 @@
 // pages/docconsult/docconsult.js
+const api = require('../../utils/api')
+var actoken = ""
+var doctorID = ""
+
 Page({
 
   /**
@@ -76,13 +80,49 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      docname: '冯世纶',
-      clinicname: '国宾堂'
-    })
+    
     var scene = decodeURIComponent(options.scene)
     console.log(">>>OnLoad get input parameter: " + scene)
+    let that = this
+    let tmpArr = scene.split("-")
+    doctorID = tmpArr[1]
+    console.log(">>>OnLoad get doctor id: " + doctorID)
+    
+
+    that.myinit().then(function(data) {
+      actoken = data
+      console.log(">>>getting token success! " + actoken)
+      that.getDoctorInfo().then(function(res){        
+        that.setWelcomeTitle(res)
+      })
+    })
   },
+
+  // 初始化
+  myinit() {
+    let mobile = "88851685168" //局部变量
+    let password = "asdf1234"
+    let p = api.getAccessToken(mobile, password)
+    return p
+  },
+
+  getDoctorInfo() {
+    let url = api.apiurl + "/xiusers/doctor/" + doctorID + "/"
+    console.log(">>>doctor info url " + url)
+    let param = ""
+    let p = api.getData(url, param, actoken)
+    return p
+  },
+
+  setWelcomeTitle(res) {
+    let that = this
+    console.log(">>>welcome title " + res['username'])
+    that.setData({
+      docname: res['username'],
+      clinicname: res['hospital']
+    })
+  },
+  
 
   /**
    * 生命周期函数--监听页面初次渲染完成

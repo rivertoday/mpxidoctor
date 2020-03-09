@@ -14,27 +14,63 @@ Page({
     imgurls: [],
     docname: '',
     docmobile: '',
-    clinicname: ''
+    clinicname: '',
+    password: '',
+    subpassword: '',
+    valcodeinfo: '发送验证码',
+    validate_code: '',
+    visibleDlg: false,
+    hintDlginfo: '',
+    visiblePass: false,
+  },
+  handleDlgClose() {
+    this.setData({
+      visibleDlg: false
+    });
+  },
+  handlePassClose() {
+    this.setData({
+      visiblePass: false
+    });
   },
 
-  inputDocNameEvent: function (e) {
+  inputDocNameEvent: function(e) {
     console.log(">>>inputDocNameEvent: " + e.detail.detail.value)
     this.setData({
       docname: e.detail.detail.value
     })
   },
 
-  inputDocMobileEvent: function (e) {
+  inputDocMobileEvent: function(e) {
     console.log(">>>inputDocMobileEvent: " + e.detail.detail.value)
     this.setData({
       docmobile: e.detail.detail.value
     })
   },
 
-  inputClinicNameEvent: function (e) {
+  inputClinicNameEvent: function(e) {
     console.log(">>>inputClinicNameEvent: " + e.detail.detail.value)
     this.setData({
       clinicname: e.detail.detail.value
+    })
+  },
+
+  inputDocPassEvent: function(e) {
+    console.log(">>>inputDocPassEvent: " + e.detail.detail.value)
+    this.setData({
+      password: e.detail.detail.value
+    })
+  },
+  inputDocPass2Event: function(e) {
+    console.log(">>>inputDocPass2Event: " + e.detail.detail.value)
+    this.setData({
+      subpassword: e.detail.detail.value
+    })
+  },
+  inputValCodeEvent: function(e) {
+    console.log(">>>inputValCodeEvent: " + e.detail.detail.value)
+    this.setData({
+      validate_code: e.detail.detail.value
     })
   },
 
@@ -74,78 +110,282 @@ Page({
     })
   },
 
+  submitRegInfo: function(e) {
+    console.info(">>>current token: " + actoken)
+    let that = this
+    if (that.data.docname == '') {
+      that.setData({
+        hintDlginfo: '您的姓名'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.docmobile == '') {
+      that.setData({
+        hintDlginfo: '手机号码'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.clinicname == '') {
+      that.setData({
+        hintDlginfo: '诊所名称'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.password == '' || that.data.subpassword == '') {
+      that.setData({
+        hintDlginfo: '密码'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.password != that.data.subpassword) {
+      that.setData({
+        visiblePass: true
+      });
+      return
+    }
+    if (that.data.images.length == 0) {
+      that.setData({
+        hintDlginfo: '您的头像和诊所图片'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+
+    //数据都齐全
+    wx.showModal({
+      title: '确认提交',
+      success: function(res) {
+        if (res.confirm) {
+          wx.showLoading({
+            title: '上传图片中...',
+            mask: true
+          });
+
+          var uploads = [];
+          for (let i = 0; i < that.data.images.length; i++) {
+            uploads[i] = that.uploadFile(that.data.images[i])
+          }
+
+          Promise.all(uploads).then((res) => {
+            //todo
+            wx.hideLoading()
+            for (let j = 0; j < res.length; j++) {
+              console.log(">>>urls: " + res[j])
+            }
+            that.setData({
+              imgurls: res,
+            })
+
+            //注册医生
+            that.registerDoctor().then(function (data) {
+              console.log(data);
+              return that.updateDoctor(data);
+            })
+
+          }).catch((error) => {
+            console.log(error);
+          });
+        }
+      }
+    })
+  },
+
+  // 上传文件
+  uploadFile: function(pic) {
+    return new Promise((resolve, reject) => {
+      console.log(pic)
+      wx.uploadFile({
+        url: api.apiurl + "/xiusers/uploadimg/",
+        filePath: pic,
+        name: "file",
+        header: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + actoken
+        },
+        success: function(res) {
+          console.log(">>>uploadimg url: " + res.data)
+          resolve(res.data)
+        },
+        fail: function(err) {
+          console.log(err)
+          reject(err)
+        }
+      })
+    });
+  },
+
+  // 注册医生
+  registerDoctor: function() {
+    let that = this
+    let p = new Promise((resolve, reject) => {
+      wx.request({
+        url: api.apiurl + "/xiusers/doctor/register/",
+        method: 'POST',
+        data: {
+          //"username": that.data.docname,
+          "mobile": that.data.docmobile,
+          "password": that.data.password,
+          "subpassword": that.data.subpassword,
+          //"hospital": that.data.clinicname,
+          //"hospital_img": that.data.imgurls[1],
+          "validate_code": 123123 //that.data.validate_code
+        },
+        header: {
+          'content-type': 'application/json', // 默认值
+          "Authorization": "Bearer " + actoken
+        },
+        success: function(res) {
+          console.log(res.data)
+          resolve(res.data.docId)
+        },
+        fail: function(err) {
+          console.log(err)
+          reject(err)
+        }
+      })
+    })
+
+    return p
+  },
+
+  //补充医生信息
+  updateDoctor: function(value) {
+    let that = this
+    let newDocId = value
+    console.log(">>>new doctor id is: " + newDocId)
+    // for (let k = 0; k < that.data.imgurls.length; k++) {
+    //   console.log(">>>imgurl " + k + " " + that.data.imgurls[k])
+    // }
+
+    //更新医生信息
+    let p = new Promise((resolve, reject) => {
+      wx.request({
+        url: api.apiurl + "/xiusers/doctor/" + newDocId + "/",
+        method: 'PUT',
+        data: {
+          "username": that.data.docname,
+          "sex": "未知",
+          "nick_name": "医之大者",
+          "id_card": "110101195010010001",
+          "birthday": "1950-10-01",
+          "hospital": that.data.clinicname,
+          "hospital_img": that.data.imgurls[1],
+          "department": "未知",
+          "good_point": "国医堂",
+          "good_at": "养心正气",
+          "summary": "医者仁心"          
+        },
+        header: {
+          'content-type': 'application/json', // 默认值
+          "Authorization": "Bearer " + actoken
+        },
+        success: function(res) {
+          console.log(res.data)
+          that.data.images = []
+          wx.showToast({
+            title: '注册成功',
+            icon: 'success',
+            duration: 2000,
+          })
+          resolve(res.data)
+        },
+        fail: function(err) {
+          console.log(err)
+          wx.showToast({
+            title: '注册失败',
+            icon: 'none',
+            duration: 2000,
+          })
+          reject(err)
+        }
+      })      
+    })
+
+    return p
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var scene = decodeURIComponent(options.scene)
     console.log(">>>OnLoad get input parameter: " + scene)
 
     //执行异步函数
-    this.myinit()
+    this.myinit().then(function (data) {
+      actoken = data
+      console.log(">>>getting token success! " + actoken);
+    })
   },
 
   // 初始化
   myinit() {
-    let mobile = "13811740527" //局部变量
+    let mobile = "88851685168" //局部变量
     let password = "asdf1234"
-    let tkpromise = api.getAccessToken(mobile, password)
-    tkpromise.then(function (value) {
-      //success
-      actoken = value
-      console.info(">>>getting token success! " + actoken)
-    }, function (error) {
-      // failure
-      console.error(">>>getting token failed!")
-    });
+    let p = api.getAccessToken(mobile, password)
+    return p
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })
