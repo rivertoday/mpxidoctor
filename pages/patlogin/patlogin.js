@@ -1,4 +1,6 @@
 // pages/patlogin/patlogin.js
+const api = require('../../utils/api')
+
 Page({
 
   /**
@@ -24,9 +26,30 @@ Page({
   },
 
   patlogin: function () {
-    wx.navigateTo({
-      url: '/pages/patdashboard/patdashboard?title=patdashboard'
-    })
+    let that = this
+    that.myLogin().then(function(res){
+      console.log(">>>patlogin "+res)
+      if (res.indexOf("invalid")!=-1) {
+        wx.showToast({
+          title: '抱歉，您输入的手机和密码不正确！',
+          icon: 'none',
+          duration: 2000,
+        })
+      }else{
+        wx.navigateTo({
+          url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile='+that.data.patmobile+"&&patpass="+that.data.patpass
+        })
+      }
+    })    
+  },
+
+  // 初始化
+  myLogin() {
+    let that = this
+    let mobile = that.data.patmobile
+    let password = that.data.patpass
+    let p = api.getAccessToken(mobile, password)
+    return p
   },
 
   /**

@@ -7,7 +7,8 @@
     "pages/docdashboard/docdashboard",
     "pages/patdashboard/patdashboard",
     "pages/doclogin/doclogin",
-    "pages/patlogin/patlogin"
+    "pages/patlogin/patlogin",
+    "pages/consult/consult"
   ],
   "window": {
     "backgroundTextStyle": "light",

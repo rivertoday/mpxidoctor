@@ -23,6 +23,7 @@ Page({
     hintDlginfo: '',
     visiblePass: false,
   },
+
   handleDlgClose() {
     this.setData({
       visibleDlg: false
@@ -181,7 +182,6 @@ Page({
           }
 
           Promise.all(uploads).then((res) => {
-            //todo
             wx.hideLoading()
             for (let j = 0; j < res.length; j++) {
               console.log(">>>urls: " + res[j])
@@ -190,10 +190,24 @@ Page({
               imgurls: res,
             })
 
-            //注册医生
-            that.registerDoctor().then(function (data) {
+            //查询该手机号的医生是否存在
+            that.searchDoctor().then(function (data) {
               console.log(data);
-              return that.updateDoctor(data);
+              if (data.count > 0) {//存在，更新医生数据
+                let docid = data.results[0].id
+                console.log(">>>found doctor " + docid)
+                wx.showToast({
+                  title: '抱歉，您的手机号已经注册过了',
+                  icon: 'none',
+                  duration: 2000,
+                })
+              }else {
+                //注册医生
+                that.registerDoctor().then(function (data) {
+                  console.log(data);
+                  return that.updateDoctor(data);
+                })
+              }
             })
 
           }).catch((error) => {
@@ -228,6 +242,33 @@ Page({
     });
   },
 
+  //查询医生是否存在
+  searchDoctor: function () {
+    let that = this
+    let schmobile = that.data.docmobile
+    let p = new Promise((resolve, reject) => {
+      wx.request({
+        url: api.apiurl + "/xiusers/doctor/list/?search=" + schmobile,
+        method: 'GET',
+        data: {},
+        header: {
+          'content-type': 'application/json', // 默认值
+          "Authorization": "Bearer " + actoken
+        },
+        success: function (res) {
+          console.log(res.data)
+          resolve(res.data)//查询到的符合电话号码的医生
+        },
+        fail: function (err) {
+          console.log(err)
+          reject(err)
+        }
+      })
+    })
+
+    return p
+  },
+
   // 注册医生
   registerDoctor: function() {
     let that = this
@@ -242,7 +283,7 @@ Page({
           "subpassword": that.data.subpassword,
           //"hospital": that.data.clinicname,
           //"hospital_img": that.data.imgurls[1],
-          "validate_code": 123123 //that.data.validate_code
+          "validate_code": 123456//that.data.validate_code
         },
         header: {
           'content-type': 'application/json', // 默认值
@@ -250,7 +291,7 @@ Page({
         },
         success: function(res) {
           console.log(res.data)
-          resolve(res.data.docId)
+          resolve(res.data.userId)
         },
         fail: function(err) {
           console.log(err)
@@ -297,7 +338,7 @@ Page({
           console.log(res.data)
           that.data.images = []
           wx.showToast({
-            title: '注册成功',
+            title: '注册成功，请等待审核结果！',
             icon: 'success',
             duration: 2000,
           })
@@ -306,7 +347,7 @@ Page({
         fail: function(err) {
           console.log(err)
           wx.showToast({
-            title: '注册失败',
+            title: '注册失败，请重新进入页面提交数据！',
             icon: 'none',
             duration: 2000,
           })

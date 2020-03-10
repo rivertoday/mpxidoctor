@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "i-input": "../../dist/input/index",
-    "i-button": "../../dist/button/index"
+    "i-button": "../../dist/button/index",
+    "i-notice-bar": "../../dist/notice-bar/index"
   },
   "navigationBarTitleText": "医生登录"
 }

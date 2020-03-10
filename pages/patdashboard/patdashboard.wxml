@@ -1,7 +1,13 @@
 <!--pages/patdashboard/patdashboard.wxml-->
+<i-notice-bar>
+  我的咨询页面
+</i-notice-bar>
 <view class="i-sticky-demo-des">
-    我的咨询
+  查看下面我的咨询请求以及医生的回复
 </view>
-<view class="i-sticky-demo-des">
-    查看下面我的咨询请求以及医生的回复
-</view>
+
+<i-cell-group>
+  <block wx:for="{{consults}}" wx:key="*this">
+    <i-cell title="{{item.desc}}" value="{{item.created_time}}" is-link url="/pages/consult/consult?consultid={{item.pk}}"></i-cell>
+  </block>
+</i-cell-group>

@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "i-sticky": "../../dist/sticky/index",
-    "i-sticky-item": "../../dist/sticky-item/index"
+    "i-sticky-item": "../../dist/sticky-item/index",
+    "i-notice-bar": "../../dist/notice-bar/index"
   },
-  "navigationBarTitleText": "医生工作"
+  "navigationBarTitleText": "医生工作站"
 }

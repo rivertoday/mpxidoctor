@@ -6,6 +6,7 @@
     "i-icon": "../../dist/icon/index",
     "i-button": "../../dist/button/index",
     "i-tag": "../../dist/tag/index",
+    "i-notice-bar": "../../dist/notice-bar/index",
     "i-modal": "../../dist/modal/index"
   },
   "navigationBarTitleText": "医生注册"

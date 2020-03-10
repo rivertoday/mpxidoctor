@@ -1,4 +1,7 @@
 <!--pages/docregister/docregister.wxml-->
+<i-notice-bar>
+  请填写下列信息注册您的医生账号！
+</i-notice-bar>
 <i-row>
   <i-input title="您的姓名" type="textarea" bind:blur="inputDocNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
   <i-input title="您的手机" type="textarea" bind:blur="inputDocMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
@@ -7,8 +10,8 @@
   <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码"  />
 </i-row>
 <i-row>
-    <i-col span="16" i-class="col-class">
-      <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="wrapped" maxlength="20" placeholder="请输入验证码" />
+    <i-col span="8" i-class="col-class">
+      <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="normal" maxlength="6" placeholder="验证码" />
     </i-col>
     <i-col span="8" i-class="col-class">
       <i-button bind:click="sendSms" size="small">{{valcodeinfo}}</i-button>

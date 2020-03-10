@@ -1,0 +1,9 @@
+<!--pages/consult/consult.wxml-->
+<i-notice-bar>
+  咨询详情页面
+</i-notice-bar>
+
+<i-card title="{{consultdetail.doctor}}" extra="{{consultdetail.created_time}}" thumb="../../images/consult.png">
+    <view slot="content">{{consultdetail.desc}}</view>
+    <view slot="footer">{{consultdetail.status}}</view>
+</i-card>

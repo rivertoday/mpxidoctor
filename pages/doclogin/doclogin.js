@@ -1,4 +1,6 @@
 // pages/doclogin/doclogin.js
+const api = require('../../utils/api')
+
 Page({
 
   /**
@@ -24,9 +26,30 @@ Page({
   },
 
   doclogin: function () {
-    wx.navigateTo({
-      url: '/pages/docdashboard/docdashboard?title=docdashboard'
+    let that = this
+    that.myLogin().then(function (res) {
+      console.log(">>>patlogin " + res)
+      if (res.indexOf("invalid") != -1) {
+        wx.showToast({
+          title: '抱歉，您输入的手机和密码不正确！',
+          icon: 'none',
+          duration: 2000,
+        })
+      } else {
+        wx.navigateTo({
+          url: '/pages/docdashboard/docdashboard?title=docdashboard'
+        })
+      }    
     })
+  },
+
+  // 初始化
+  myLogin() {
+    let that = this
+    let mobile = that.data.docmobile
+    let password = that.data.docpass
+    let p = api.getAccessToken(mobile, password)
+    return p
   },
 
   /**

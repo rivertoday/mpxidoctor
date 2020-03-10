@@ -1,7 +1,7 @@
 <!--pages/docdashboard/docdashboard.wxml-->
-<view class="i-sticky-demo-des">
-    医生工作站
-</view>
+<i-notice-bar>
+  医生工作站
+</i-notice-bar>
 <view class="i-sticky-demo-des">
     请查看下面患者的咨询请求
 </view>
