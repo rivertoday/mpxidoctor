@@ -1,1 +1,38 @@
 /* pages/consult/consult.wxss */
+/* 图片部分 */
+.publish_imgs_area{
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-radius: 15rpx;
+    margin: 20rpx;
+    padding-left: 8rpx;
+    padding-top: 8rpx;
+    padding-bottom: 8rpx;
+    /* height: 450rpx; */
+}
+
+.image_item {
+    width: 223rpx;
+    height: 223rpx;
+    padding: 4rpx;
+}
+
+.image_content{
+    width: 223rpx;
+    height: 223rpx;
+    border-radius: 15rpx;
+    border: 1px solid #f1efef;
+}
+
+.image_cancel{
+    width:40rpx;
+    height:40rpx;
+    border-radius:50%;
+    position:relative;
+    top:-259rpx;
+    right:-204rpx;
+    z-index:800;
+}

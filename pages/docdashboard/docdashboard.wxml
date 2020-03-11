@@ -1,7 +1,17 @@
 <!--pages/docdashboard/docdashboard.wxml-->
+<wxs src="../../utils/subutils.wxs" module="tools" />
+
 <i-notice-bar>
   医生工作站
 </i-notice-bar>
 <view class="i-sticky-demo-des">
     请查看下面患者的咨询请求
 </view>
+
+<i-cell-group>
+  <block wx:for="{{consults}}" wx:key="*this">
+    <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/answer/answer?consultid={{item.pk}}&&docid={{item.doctor}}">
+    <i-icon slot="icon" type="activity" size="28" color="#80848f" />
+    </i-cell>
+  </block>
+</i-cell-group>

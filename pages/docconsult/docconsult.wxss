@@ -1,36 +1,38 @@
 /* pages/docconsult/docconsult.wxss */
-.q-image-wrap{
-  width: 150rpx;
-  height: 150rpx;
-  border: 3px solid #f0f0f0;
-  float: left;
-  margin-right: 20rpx;
-  position: relative;
-  overflow: hidden;
+/* 图片部分 */
+.publish_imgs_area{
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    border-radius: 15rpx;
+    margin: 20rpx;
+    padding-left: 8rpx;
+    padding-top: 8rpx;
+    padding-bottom: 8rpx;
+    /* height: 450rpx; */
 }
 
-.q-image{
-  display: block;
-  width: 150rpx;
-  height: 150rpx;
+.image_item {
+    width: 223rpx;
+    height: 223rpx;
+    padding: 4rpx;
 }
 
-.q-image-remover{
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 100%;
-  background: #2e82ff;
-  position: absolute;
-  top:-50rpx;
-  right:-50rpx;
- 
+.image_content{
+    width: 223rpx;
+    height: 223rpx;
+    border-radius: 15rpx;
+    border: 1px solid #f1efef;
 }
 
-.uploadImgBtn{
-  width: 150rpx;
-  height: 150rpx;
-  text-align: center;
-  line-height: 140rpx;
-  border: 6rpx solid #f0f0f0;
-  float: left;
+.image_cancel{
+    width:40rpx;
+    height:40rpx;
+    border-radius:50%;
+    position:relative;
+    top:-259rpx;
+    right:-204rpx;
+    z-index:800;
 }

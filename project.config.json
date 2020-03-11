@@ -68,7 +68,7 @@
 					"id": 1,
 					"name": "咨询医生",
 					"pathName": "pages/docconsult/docconsult",
-					"query": "scene=consult-001",
+					"query": "scene=consult-28",
 					"scene": 1048
 				}
 			]

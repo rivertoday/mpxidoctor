@@ -1,4 +1,4 @@
-// pages/consult/consult.js
+// pages/answer/answer.js
 const api = require('../../utils/api')
 var actoken = ""
 
@@ -8,10 +8,18 @@ Page({
    * 页面的初始数据
    */
   data: {
+    docid: '',
     consultid: '',
     consultdetail: {},
-    patid: '',
-    consultimgs:[]
+    docanswer: '',
+    consultimgs: []
+  },
+
+  inputAnswerEvent: function(e) {
+    console.log(">>>inputAnswerEvent: " + e.detail.detail.value)
+    this.setData({
+      docanswer: e.detail.detail.value
+    })
   },
 
   handleImagePreview(e) {
@@ -30,13 +38,14 @@ Page({
     let that = this
     that.setData({
       consultid: options.consultid,
-      patid: options.patid
+      docid: options.docid
     })
 
-    actoken = wx.getStorageSync("pat_token");
+    actoken = wx.getStorageSync("doc_token");
 
     that.getConsult().then(function(data) {
       console.log(">>>get consult detail " + data)
+
       let tmpArray = []
       if (data.img1_url != "null") {
         tmpArray.push(data.img1_url)

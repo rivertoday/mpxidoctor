@@ -9,21 +9,20 @@ Page({
    */
   data: {
     patmobile: '',
-    patpass: '',
     consults: [
-    // {
-    //   id: 1,
-    //   created_time: '2020-03-10T14:18:20.421Z',
-    //   desc: '胃有点疼',
-    // }, {
-    //   id: 2,
-    //   created_time: '2020-03-10T14:18:20.421Z',
-    //   desc: '肠有点疼',
-    // }, {
-    //   id: 3,
-    //   created_time: '2020-03-10T14:18:20.421Z',
-    //   desc: '肝有点疼',
-    // }
+      // {
+      //   id: 1,
+      //   created_time: '2020-03-10T14:18:20.421Z',
+      //   desc: '胃有点疼',
+      // }, {
+      //   id: 2,
+      //   created_time: '2020-03-10T14:18:20.421Z',
+      //   desc: '肠有点疼',
+      // }, {
+      //   id: 3,
+      //   created_time: '2020-03-10T14:18:20.421Z',
+      //   desc: '肝有点疼',
+      // }
     ],
   },
 
@@ -39,37 +38,24 @@ Page({
     console.log(">>>current time " + mytime)
 
     that.setData({
-      patmobile: options.patmobile,
-      patpass: options.patpass
+      patmobile: options.patmobile
     })
 
-    console.log(">>>Got patient mobile " + that.data.patmobile)
+    actoken = wx.getStorageSync("pat_token");
 
-    that.myinit().then(function(res) {
-      actoken = res
-      that.findPatientId().then(function(patres){
-        console.log(">>>get patient info " + patres.results[0])
-        let patid = patres.results[0].id
-        that.getPatientConsults(patid).then(function (data) {
-          console.log(">>>get patient consult info " + data)
-          that.setData({
-            consults: data.results
-          })
+    that.findPatientId().then(function(patres) {
+      console.log(">>>get patient info " + patres.results[0])
+      let patid = patres.results[0].id
+      that.getPatientConsults(patid).then(function(data) {
+        console.log(">>>get patient consult info " + data)
+        that.setData({
+          consults: data.results
         })
       })
-      
     })
   },
 
-  // 初始化
-  myinit() {
-    let mobile = this.data.patmobile
-    let password = this.data.patpass
-    let p = api.getAccessToken(mobile, password)
-    return p
-  },
-
-  findPatientId(){
+  findPatientId() {
     let that = this
     let url = api.apiurl + "/xiusers/patient/list/?search=" + that.data.patmobile
     let param = ''
@@ -79,7 +65,7 @@ Page({
 
   //获取患者咨询问题
   getPatientConsults(id) {
-    let url = api.apiurl + "/consult/list/?patient="+id
+    let url = api.apiurl + "/consult/list/?patient=" + id
     let param = ''
     let p = api.getData(url, param, actoken)
     return p

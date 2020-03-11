@@ -28,7 +28,7 @@ Page({
   doclogin: function () {
     let that = this
     that.myLogin().then(function (res) {
-      console.log(">>>patlogin " + res)
+      console.log(">>>doclogin " + res)
       if (res.indexOf("invalid") != -1) {
         wx.showToast({
           title: '抱歉，您输入的手机和密码不正确！',
@@ -36,8 +36,10 @@ Page({
           duration: 2000,
         })
       } else {
+        //将医生登录的token保存到本地storage
+        wx.setStorageSync("doc_token", res);
         wx.navigateTo({
-          url: '/pages/docdashboard/docdashboard?title=docdashboard'
+          url: '/pages/docdashboard/docdashboard?title=docdashboard&&docmobile='+that.data.docmobile
         })
       }    
     })

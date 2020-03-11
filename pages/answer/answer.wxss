@@ -1,4 +1,4 @@
-/* pages/docregister/docregister.wxss */
+/* pages/answer/answer.wxss */
 /* 图片部分 */
 .publish_imgs_area{
     background-color: #ffffff;
@@ -15,8 +15,8 @@
 }
 
 .image_item {
-    width: 225rpx;
-    height: 225rpx;
+    width: 223rpx;
+    height: 223rpx;
     padding: 4rpx;
 }
 

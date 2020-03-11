@@ -156,7 +156,7 @@ Page({
       });
       return
     }
-    if (that.data.images.length == 0) {
+    if (that.data.images.length < 2) {
       that.setData({
         hintDlginfo: '您的头像和诊所图片'
       })
@@ -321,6 +321,7 @@ Page({
           "username": that.data.docname,
           "sex": "未知",
           "nick_name": "医之大者",
+          "user_img": that.data.imgurls[0],
           "id_card": "110101195010010001",
           "birthday": "1950-10-01",
           "hospital": that.data.clinicname,

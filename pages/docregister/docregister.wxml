@@ -5,36 +5,38 @@
 <i-row>
   <i-input title="您的姓名" type="textarea" bind:blur="inputDocNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
   <i-input title="您的手机" type="textarea" bind:blur="inputDocMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
-  <i-input title="诊所名称" type="textarea" bind:blur="inputClinicNameEvent" mode="wrapped" maxlength="100" placeholder="请填写您所在的诊所名称"  />
-  <i-input title="密码" type="password" bind:blur="inputDocPassEvent" mode="wrapped" maxlength="20" placeholder="请设置您的登录密码"  />
-  <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码"  />
+  <i-input title="诊所名称" type="textarea" bind:blur="inputClinicNameEvent" mode="wrapped" maxlength="100" placeholder="请填写您所在的诊所名称" />
+  <i-input title="密码" type="password" bind:blur="inputDocPassEvent" mode="wrapped" maxlength="20" placeholder="请设置您的登录密码" />
+  <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码" />
+</i-row>
+<!--
+<i-row>
+  <i-col span="8" i-class="col-class">
+    <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="normal" maxlength="6" placeholder="验证码" />
+  </i-col>
+  <i-col span="8" i-class="col-class">
+    <i-button bind:click="sendSms" size="small">{{valcodeinfo}}</i-button>
+  </i-col>
+</i-row>
+-->
+<i-row>
+  <i-icon type="camera" size="56" color="#80848f" />
+  <text>上传两张图片（您的头像和诊所图片）</text>
 </i-row>
 <i-row>
-    <i-col span="8" i-class="col-class">
-      <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="normal" maxlength="6" placeholder="验证码" />
-    </i-col>
-    <i-col span="8" i-class="col-class">
-      <i-button bind:click="sendSms" size="small">{{valcodeinfo}}</i-button>
-    </i-col>
-</i-row>
-<i-row>
-    <i-icon type="camera" size="56" color="#80848f" />
-    <text>上传两张图片（您的头像和诊所图片）</text>
-</i-row>
-<i-row>
-  <view class="question-images clearFloat">
-    <block wx:for="{{images}}" wx:key="*this">
-      <view class="q-image-wrap">
-        <!-- 图片缩略图  -->
-        <image class="q-image" src="{{item}}" mode="aspectFill" data-idx="{{index}}" bindtap="handleImagePreview"></image>
-        <!-- 移除图片的按钮  -->
-        <view class="q-image-remover" data-idx="{{index}}" bindtap="removeImage">
-          <i-icon type="delete_fill" size="28" color="#FFFAFA" />
-        </view>
+  <view class="publish_imgs_area">
+    <!-- 图片 -->
+    <view class="imgs_area" wx:for="{{images}}" wx:key="*this">
+      <view class="image_item">
+        <image class="image_content" src="{{item}}" data-idx="{{index}}" mode="aspectFill" bindtap="handleImagePreview" />
+        <image class="image_cancel" src="../../images/cancel.png" mode="aspectFill" data-idx="{{index}}" bindtap="removeImage" />
       </view>
-    </block>
-    <view class='uploadImgBtn' bindtap="chooseImage" wx:if="{{images.length < 2}}">
-      <i-icon type="add" size="56" color="#80848f" />
+    </view>
+    <!-- 图片上传图片按钮 -->
+    <view class="imgs_area" bindtap="chooseImage" wx:if="{{images.length < 2}}">
+      <view class="image_item">
+        <image class="image_content" src="../../images/upload.png" mode="aspectFill" />
+      </view>
     </view>
   </view>
 </i-row>
@@ -46,8 +48,8 @@
 
 
 <i-modal visible="{{ visibleDlg }}" bind:ok="handleDlgClose" bind:cancel="handleDlgClose">
-    <view>请您补充{{hintDlginfo}}</view>
+  <view>请您补充{{hintDlginfo}}</view>
 </i-modal>
 <i-modal visible="{{ visiblePass }}" bind:ok="handlePassClose" bind:cancel="handlePassClose">
-    <view>对不起，您两次输入的密码不一致！</view>
+  <view>对不起，您两次输入的密码不一致！</view>
 </i-modal>

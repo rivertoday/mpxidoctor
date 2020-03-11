@@ -36,8 +36,10 @@ Page({
           duration: 2000,
         })
       }else{
+        //将患者登录的token保存到本地storage
+        wx.setStorageSync("pat_token", res);
         wx.navigateTo({
-          url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile='+that.data.patmobile+"&&patpass="+that.data.patpass
+          url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile='+that.data.patmobile
         })
       }
     })    

@@ -1,4 +1,6 @@
 <!--pages/patdashboard/patdashboard.wxml-->
+<wxs src="../../utils/subutils.wxs" module="tools" />
+
 <i-notice-bar>
   我的咨询页面
 </i-notice-bar>
@@ -8,6 +10,8 @@
 
 <i-cell-group>
   <block wx:for="{{consults}}" wx:key="*this">
-    <i-cell title="{{item.desc}}" value="{{item.created_time}}" is-link url="/pages/consult/consult?consultid={{item.pk}}"></i-cell>
+    <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}&&patid={{item.patient}}">
+    <i-icon slot="icon" type="activity" size="28" color="#80848f" />
+    </i-cell>
   </block>
 </i-cell-group>

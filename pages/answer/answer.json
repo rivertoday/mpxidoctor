@@ -3,7 +3,8 @@
     "i-notice-bar": "../../dist/notice-bar/index",
     "i-card": "../../dist/card/index",
     "i-row": "../../dist/row/index",
-    "i-col": "../../dist/col/index"
+    "i-col": "../../dist/col/index",
+    "i-input": "../../dist/input/index"
   },
-  "navigationBarTitleText": "咨询详情"
+  "navigationBarTitleText": "我来回复"
 }

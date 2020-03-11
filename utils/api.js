@@ -1,7 +1,7 @@
 //import regeneratorRuntime from 'runtime.js'
 const apiurl = "http://127.0.0.1:8000"
-const client_id = "EtBlBYFGxNAcHpn3j5bKRcdvmbe6Rn3dK0lYEp8X"
-const client_secret = "XTy25ZVWLpvDzXfYVenrkVD5a5k7wQpaNMKtFBdZCkzhv7hl1VlcD7MpJYW9cSeWcgtYQ1NpYDRhcs0SQneipAKQUEnVR7zXRja7EWO3jYgr4eTozEc6g7Nf8eoMBH0x"
+const client_id = "dmCgAL4L4C7zxTpgViMN7FzujAe9Mftj0wZyU89r"
+const client_secret = "Cudzs5RtONgDZnG8GFfuLtxQoXteH57nxiL6ePHih9QOx43kol5mWm83DLeoALL3dyO8cUts8SRaQCdJbRE7y30XCUloLUpM4FFRnMxQCVIIMWMheelHMNCkjQqEsgyU"
 const scope_users = "users"
 const scope_consult = "consult"
 
@@ -22,12 +22,16 @@ const getAccessToken = (mobile, password) => {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       success: function (res) {
-        console.log(">>>Get accesstoken successed!")
         var json = res.data;
-        console.log(">>>accesstoken result: ");
+        console.log(">>>getAccessToken result: ");
         console.log(json);
-        console.log(json["access_token"]);
-        resolve(json["access_token"])
+        if (json.hasOwnProperty("access_token")) {
+          console.log(json["access_token"]);
+          resolve(json["access_token"])
+        }else{
+          console.log(json["error"])
+          resolve(json["error"])
+        }
       },
       fail: function (err) {
         console.log(">>>Get accesstoken failed!")
@@ -39,15 +43,20 @@ const getAccessToken = (mobile, password) => {
 }
 
 // request get 请求
-const getData = (url, param) => {
+const getData = (url, param, token) => {
   return new Promise((resolve, reject) => {
     wx.request({
       url: url,
       method: 'GET',
       data: param,
-      success(res) {
-        console.log(res)
-        resolve(res.data)
+      header: {
+        'content-type': 'application/json', // 默认值
+        "Authorization": "Bearer " + token
+      },
+      success(res) {        
+        var json = res.data;
+        console.log(json)
+        resolve(json)
       },
       fail(err) {
         console.log(err)
@@ -65,8 +74,9 @@ const postData = (url, param) => {
       method: 'POST',
       data: param,
       success(res) {
-        console.log(res)
-        resolve(res.data)
+        var json = res.data;
+        console.log(json)
+        resolve(json)
       },
       fail(err) {
         console.log(err)

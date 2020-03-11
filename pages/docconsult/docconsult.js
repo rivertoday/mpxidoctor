@@ -166,7 +166,7 @@ Page({
       title: '确认提交',
       success: function(res) {
         if (res.confirm) {
-          if (that.data.images.length != 0) { //有影像图片
+          if (that.data.images.length > 0) { //有影像图片
             wx.showLoading({
               title: '上传图片中...',
               mask: true
@@ -367,17 +367,30 @@ Page({
   createConsult: function (data) {
     let that = this
     let patid = data
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    var currentDate = date.getFullYear() + "-" + month + "-" + strDate
+      + "T" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
     let p = new Promise((resolve, reject) => {
       wx.request({
         url: api.apiurl + "/consult/",
         method: 'POST',
         data: {
-          "owner": patid,
+          "patient": patid,
+          "doctor": parseInt(doctorID),
           "desc": that.data.patconsult,
-          "img1_url": that.data.imgurls[0],
-          "img2_url": that.data.imgurls[1],
-          "img3_url": that.data.imgurls[2],
-          "created_time": "2020-03-10T08:42:30.586Z",
+          "img1_url": that.data.imgurls[0] ? that.data.imgurls[0]:"null",
+          "img2_url": that.data.imgurls[1] ? that.data.imgurls[1]:"null",
+          "img3_url": that.data.imgurls[2] ? that.data.imgurls[2]:"null",
+          "created_time": currentDate,
           "status": "等待回答"
         },
         header: {
