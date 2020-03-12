@@ -425,19 +425,16 @@ Page({
    */
   onLoad: function(options) {
     let that = this
+    doctorID = 1
+    //options.q的场景仅仅用于微信后台配置的有限测试二维码
     if (options.q) {
-      var link = decodeURIComponent(options.q);　　
-      console.log(link);
-      doctorID = 1
-      // var paramArr = link.split('=');
-      // if (paramArr.length == 2) {
-      //   doctorID = paramArr[1]
-      //   console.log(">>>OnLoad q get doctor id: " + doctorID)
-      // } else {
-      //   doctorID = 1
-      // }
+      var link = options.q;　　
+      console.log(">>>OnLoad q get link as " + link);      
+      doctorID = link.charAt(link.length - 1)
+      console.log(">>>OnLoad q get doctor id: " + doctorID)
     }
-
+    
+    //scene的场景是通用的，将来由服务端后台动态生成每个医生的二维码
     if (options.scene) {
       var scene = decodeURIComponent(options.scene)
       console.log(">>>OnLoad scene get input parameter: " + scene)

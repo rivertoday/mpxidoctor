@@ -364,6 +364,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(">>>We get into the register page!")
+
     var scene = decodeURIComponent(options.scene)
     console.log(">>>OnLoad get input parameter: " + scene)
 
