@@ -42,7 +42,9 @@ Page({
     console.log(">>>patient sex is " + this.data.currentsex)
   },
 
-  handlePatAgeChange({ detail }) {
+  handlePatAgeChange({
+    detail
+  }) {
     this.setData({
       patage: detail.value
     })
@@ -187,9 +189,9 @@ Page({
               })
 
               //查询该手机号的患者是否存在
-              that.searchPatient().then(function(data){
+              that.searchPatient().then(function(data) {
                 console.log(data);
-                if (data.count > 0) {//存在，更新患者数据
+                if (data.count > 0) { //存在，更新患者数据
                   let patid = data.results[0].id
                   console.log(">>>found patient " + patid)
                   wx.showToast({
@@ -198,11 +200,11 @@ Page({
                     duration: 1000,
                   })
                   return that.createConsult(patid)
-                }else {//不存在，需要注册患者
-                  that.registerPatient().then(function (data) {
+                } else { //不存在，需要注册患者
+                  that.registerPatient().then(function(data) {
                     let patid = data
                     console.log(">>>created new patient " + patid);
-                    that.updatePatient(patid).then(function(res){
+                    that.updatePatient(patid).then(function(res) {
                       return that.createConsult(patid)
                     })
                   })
@@ -258,11 +260,11 @@ Page({
           'content-type': 'application/json', // 默认值
           "Authorization": "Bearer " + actoken
         },
-        success: function (res) {
+        success: function(res) {
           console.log(res.data)
-          resolve(res.data)//查询到的符合电话号码的患者
+          resolve(res.data) //查询到的符合电话号码的患者
         },
-        fail: function (err) {
+        fail: function(err) {
           console.log(err)
           reject(err)
         }
@@ -364,7 +366,7 @@ Page({
   },
 
   //创建咨询信息
-  createConsult: function (data) {
+  createConsult: function(data) {
     let that = this
     let patid = data
     var date = new Date();
@@ -376,8 +378,8 @@ Page({
     if (strDate >= 0 && strDate <= 9) {
       strDate = "0" + strDate;
     }
-    var currentDate = date.getFullYear() + "-" + month + "-" + strDate
-      + "T" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    var currentDate = date.getFullYear() + "-" + month + "-" + strDate +
+      "T" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
     let p = new Promise((resolve, reject) => {
       wx.request({
@@ -387,9 +389,9 @@ Page({
           "patient": patid,
           "doctor": parseInt(doctorID),
           "desc": that.data.patconsult,
-          "img1_url": that.data.imgurls[0] ? that.data.imgurls[0]:"null",
-          "img2_url": that.data.imgurls[1] ? that.data.imgurls[1]:"null",
-          "img3_url": that.data.imgurls[2] ? that.data.imgurls[2]:"null",
+          "img1_url": that.data.imgurls[0] ? that.data.imgurls[0] : "null",
+          "img2_url": that.data.imgurls[1] ? that.data.imgurls[1] : "null",
+          "img3_url": that.data.imgurls[2] ? that.data.imgurls[2] : "null",
           "created_time": currentDate,
           "status": "等待回答"
         },
@@ -397,7 +399,7 @@ Page({
           'content-type': 'application/json', // 默认值
           "Authorization": "Bearer " + actoken
         },
-        success: function (res) {
+        success: function(res) {
           console.log(res.data)
           that.data.images = []
           wx.showToast({
@@ -405,9 +407,9 @@ Page({
             icon: 'success',
             duration: 1000,
           })
-          resolve(res.data)//生成的咨询信息
+          resolve(res.data) //生成的咨询信息
         },
-        fail: function (err) {
+        fail: function(err) {
           console.log(err)
           reject(err)
         }
@@ -422,14 +424,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
-    var scene = decodeURIComponent(options.scene)
-    console.log(">>>OnLoad get input parameter: " + scene)
     let that = this
-    let tmpArr = scene.split("-")
-    doctorID = tmpArr[1]
-    console.log(">>>OnLoad get doctor id: " + doctorID)
+    if (options.q) {
+      var link = decodeURIComponent(options.q);　　
+      console.log(link);
+      doctorID = 1
+      // var paramArr = link.split('=');
+      // if (paramArr.length == 2) {
+      //   doctorID = paramArr[1]
+      //   console.log(">>>OnLoad q get doctor id: " + doctorID)
+      // } else {
+      //   doctorID = 1
+      // }
+    }
 
+    if (options.scene) {
+      var scene = decodeURIComponent(options.scene)
+      console.log(">>>OnLoad scene get input parameter: " + scene)
+      
+      let tmpArr = scene.split("-")
+      doctorID = tmpArr[1]
+      console.log(">>>OnLoad get doctor id: " + doctorID)
+    }
 
     that.myinit().then(function(data) {
       actoken = data
@@ -477,7 +493,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    
+
   },
 
   /**

@@ -1,24 +1,30 @@
 <!--pages/answer/answer.wxml-->
-<wxs src="../../utils/subutils.wxs" module="tools" />
 <i-notice-bar>
   回答患者咨询
 </i-notice-bar>
 
-<i-card title="{{consultdetail.patient}}  患者" extra="{{tools.sub(consultdetail.created_time0,19)}}" thumb="../../images/patient.png">
+<i-card title="{{patname}}  患者" extra="{{consultdetail.created_time}}" thumb="../../images/patient.png">
   <view slot="content">
-    <i-row>这里是患者的咨询描述：</i-row>
+    <i-row>|这里是患者的基本信息：</i-row>
+    <i-row>性别：{{patsex}}, 年龄：{{patage}}岁</i-row>
+    <i-row>|这里是患者的咨询描述：</i-row>
     <i-row>{{consultdetail.desc}}</i-row>
     <view class="publish_imgs_area">
-    <!-- 图片 -->
-    <view class="imgs_area"  wx:for="{{consultimgs}}" wx:key="*this">
-      <view class="image_item">
-        <image class="image_content" src="{{item}}" data-idx="{{index}}" mode="aspectFill" bindtap="handleImagePreview" />
+      <!-- 图片 -->
+      <view class="imgs_area" wx:for="{{consultimgs}}" wx:key="*this">
+        <view class="image_item">
+          <image class="image_content" src="{{item}}" data-idx="{{index}}" mode="aspectFill" bindtap="handleImagePreview" />
+        </view>
       </view>
     </view>
-  </view>
-    <i-row>这里是您的宝贵建议：</i-row>
+    <i-row>|这里是您的宝贵建议：</i-row>
     <i-row>
       <i-input title="回复" type="textarea" bind:blur="inputAnswerEvent" mode="wrapped" maxlength="300" placeholder="{{consultdetail.answer}}" /></i-row>
+    <i-row>
+      <view wx:if="{{isReplied==false}}">
+        <i-button bind:click="updateConsult" type="success" size="small">提交回复</i-button>
+      </view>
+    </i-row>
   </view>
   <view slot="footer">{{consultdetail.status}}</view>
 </i-card>

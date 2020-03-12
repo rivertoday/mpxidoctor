@@ -10,8 +10,13 @@
 
 <i-cell-group>
   <block wx:for="{{consults}}" wx:key="*this">
-    <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}&&patid={{item.patient}}">
-    <i-icon slot="icon" type="activity" size="28" color="#80848f" />
+    <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}">
+    <block wx:if="{{item.status=='已经回答'}}">
+        <i-icon slot="icon" type="activity" size="28" color="#228B22" />
+      </block>
+      <block wx:else>
+        <i-icon slot="icon" type="activity" size="28" color="#FF3030" />
+      </block>
     </i-cell>
   </block>
 </i-cell-group>

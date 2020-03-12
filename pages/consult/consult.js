@@ -8,15 +8,17 @@ Page({
    * 页面的初始数据
    */
   data: {
+    docid: '',
+    docname: '',
     consultid: '',
     consultdetail: {},
-    patid: '',
-    consultimgs:[]
+    consultimgs: []
   },
 
   handleImagePreview(e) {
+    let that = this
     const idx = e.target.dataset.idx
-    const images = this.data.consultimgs
+    const images = that.data.consultimgs
     wx.previewImage({
       current: images[idx], //当前预览的图片
       urls: images, //所有要预览的图片
@@ -29,11 +31,11 @@ Page({
   onLoad: function(options) {
     let that = this
     that.setData({
-      consultid: options.consultid,
-      patid: options.patid
+      consultid: options.consultid
     })
 
     actoken = wx.getStorageSync("pat_token");
+
 
     that.getConsult().then(function(data) {
       console.log(">>>get consult detail " + data)
@@ -50,9 +52,27 @@ Page({
 
       that.setData({
         consultdetail: data,
-        consultimgs: tmpArray
+        consultimgs: tmpArray,
+        docid: data.doctor
+      })
+
+      that.getDoctor().then(function(res) {
+        that.setData({
+          docname: res.username
+        })
       })
     })
+
+
+  },
+
+  // 获取医生信息
+  getDoctor() {
+    let that = this
+    let url = api.apiurl + "/xiusers/doctor/" + that.data.docid + "/"
+    let param = ''
+    let p = api.getData(url, param, actoken)
+    return p
   },
 
   //获取患者咨询问题
