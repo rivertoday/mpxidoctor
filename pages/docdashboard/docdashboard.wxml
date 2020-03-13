@@ -2,7 +2,7 @@
 <wxs src="../../utils/subutils.wxs" module="tools" />
 
 <i-notice-bar>
-  医生工作站
+  专家工作站
 </i-notice-bar>
 <view class="i-sticky-demo-des">
   请查看下面患者的咨询请求

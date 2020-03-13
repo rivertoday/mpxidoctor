@@ -1,8 +1,10 @@
 {
   "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
     "i-input": "../../dist/input/index",
     "i-button": "../../dist/button/index",
     "i-notice-bar": "../../dist/notice-bar/index"
   },
-  "navigationBarTitleText": "医生登录"
+  "navigationBarTitleText": "专家登录"
 }

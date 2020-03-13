@@ -3,17 +3,13 @@
     "i-row": "../../dist/row/index",
     "i-col": "../../dist/col/index",
     "i-message": "../../dist/message/index",
-    "i-input": "../../dist/input/index",
     "i-icon": "../../dist/icon/index",
     "i-button": "../../dist/button/index",
     "i-tag": "../../dist/tag/index",
     "i-sticky": "../../dist/sticky/index",
     "i-sticky-item": "../../dist/sticky-item/index",
     "i-notice-bar": "../../dist/notice-bar/index",
-    "i-radio-group": "../../dist/radio-group/index",
-    "i-radio": "../../dist/radio/index",
-    "i-input-number": "../../dist/input-number/index",
-    "i-modal": "../../dist/modal/index"
+    "i-card": "../../dist/card/index"
   },
-  "navigationBarTitleText": "咨询专家"
+  "navigationBarTitleText": "专家详情"
 }

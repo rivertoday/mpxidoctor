@@ -25,6 +25,12 @@ Page({
     })
   },
 
+  docregister: function () {
+    wx.navigateTo({
+      url: '/pages/docregister/docregister?title=docregister'
+    })
+  },
+
   doclogin: function () {
     let that = this
     that.myLogin().then(function (res) {

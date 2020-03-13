@@ -1,7 +1,8 @@
 // pages/docconsult/docconsult.js
 const api = require('../../utils/api')
+const { $Message } = require('../../dist/base/index')
+
 var actoken = ""
-var doctorID = ""
 
 Page({
 
@@ -11,64 +12,18 @@ Page({
   data: {
     images: [],
     imgurls: [],
-    patname: '',
-    patmobile: '',
+    patid: '',
+    docid: '',
     patconsult: '',
-    clinicname: '',
-    docname: '',
+    patientdetail: {},
+    doctordetail: {},
     visibleDlg: false,
     hintDlginfo: '',
-    patsex: [{
-      id: 1,
-      name: '男',
-    }, {
-      id: 2,
-      name: '女',
-    }, {
-      id: 3,
-      name: '未知',
-    }],
-    currentsex: '未知',
-    positionsex: 'left',
-    patage: '30'
-  },
-
-  handlePatSexChange({
-    detail = {}
-  }) {
-    this.setData({
-      currentsex: detail.value
-    });
-    console.log(">>>patient sex is " + this.data.currentsex)
-  },
-
-  handlePatAgeChange({
-    detail
-  }) {
-    this.setData({
-      patage: detail.value
-    })
-    console.log(">>>patient age is " + this.data.patage)
-  },
-
+  },  
   handleDlgClose() {
     this.setData({
       visibleDlg: false
     });
-  },
-
-  inputPatNameEvent: function(e) {
-    console.log(">>>inputPatNameEvent: " + e.detail.detail.value)
-    this.setData({
-      patname: e.detail.detail.value
-    })
-  },
-
-  inputPatMobileEvent: function(e) {
-    console.log(">>>inputPatMobileEvent: " + e.detail.detail.value)
-    this.setData({
-      patmobile: e.detail.detail.value
-    })
   },
 
   inputConsultEvent: function(e) {
@@ -116,46 +71,19 @@ Page({
 
   submitConsultInfo: function(e) {
     console.info(">>>current token: " + actoken)
-    let that = this
-    if (that.data.patname == '') {
-      that.setData({
-        hintDlginfo: '您的姓名'
-      })
-      that.setData({
-        visibleDlg: true
-      });
-      return
-    }
-    if (that.data.patmobile == '') {
-      that.setData({
-        hintDlginfo: '手机号码'
-      })
-      that.setData({
-        visibleDlg: true
-      });
-      return
-    }
-    if (that.data.currentsex == '') {
-      that.setData({
-        hintDlginfo: '性别'
-      })
-      that.setData({
-        visibleDlg: true
-      });
-      return
-    }
-    if (that.data.patage == '') {
-      that.setData({
-        hintDlginfo: '年龄'
-      })
-      that.setData({
-        visibleDlg: true
-      });
-      return
-    }
+    let that = this    
     if (that.data.patconsult == '') {
       that.setData({
         hintDlginfo: '您的问题'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.images.length < 1) {
+      that.setData({
+        hintDlginfo: '影像图片'
       })
       that.setData({
         visibleDlg: true
@@ -188,27 +116,9 @@ Page({
                 imgurls: res,
               })
 
-              //查询该手机号的患者是否存在
-              that.searchPatient().then(function(data) {
-                console.log(data);
-                if (data.count > 0) { //存在，更新患者数据
-                  let patid = data.results[0].id
-                  console.log(">>>found patient " + patid)
-                  wx.showToast({
-                    title: '手机已经存在',
-                    icon: 'none',
-                    duration: 1000,
-                  })
-                  return that.createConsult(patid)
-                } else { //不存在，需要注册患者
-                  that.registerPatient().then(function(data) {
-                    let patid = data
-                    console.log(">>>created new patient " + patid);
-                    that.updatePatient(patid).then(function(res) {
-                      return that.createConsult(patid)
-                    })
-                  })
-                }
+              //创建咨询单
+              that.createConsult().then(function(data) {
+                console.log(data);                
               })
 
             }).catch((error) => {
@@ -246,125 +156,7 @@ Page({
       })
     });
   },
-
-  //查询患者是否存在
-  searchPatient: function() {
-    let that = this
-    let schmobile = that.data.patmobile
-    let p = new Promise((resolve, reject) => {
-      wx.request({
-        url: api.apiurl + "/xiusers/patient/list/?search=" + schmobile,
-        method: 'GET',
-        data: {},
-        header: {
-          'content-type': 'application/json', // 默认值
-          "Authorization": "Bearer " + actoken
-        },
-        success: function(res) {
-          console.log(res.data)
-          resolve(res.data) //查询到的符合电话号码的患者
-        },
-        fail: function(err) {
-          console.log(err)
-          reject(err)
-        }
-      })
-    })
-
-    return p
-  },
-
-  // 注册患者
-  registerPatient: function() {
-    let that = this
-    let p = new Promise((resolve, reject) => {
-      wx.request({
-        url: api.apiurl + "/xiusers/patient/register/",
-        method: 'POST',
-        data: {
-          "mobile": that.data.patmobile,
-          "password": that.data.patmobile,
-          "subpassword": that.data.patmobile,
-          "validate_code": 123456 //that.data.validate_code
-        },
-        header: {
-          'content-type': 'application/json', // 默认值
-          "Authorization": "Bearer " + actoken
-        },
-        success: function(res) {
-          console.log(res.data)
-          wx.showToast({
-            title: '您是新用户，创建账号成功，密码是您的手机号，后续请自行修改！',
-            icon: 'success',
-            duration: 2000,
-          })
-          resolve(res.data.userId)
-        },
-        fail: function(err) {
-          console.log(err)
-          // wx.showToast({
-          //   title: '创建账号失败',
-          //   icon: 'none',
-          //   duration: 1000,
-          // })
-          reject(err)
-        }
-      })
-    })
-
-    return p
-  },
-
-  //补充患者信息
-  updatePatient: function(value) {
-    let that = this
-    let newPatId = value
-    console.log(">>>new patient id is: " + newPatId)
-    // for (let k = 0; k < that.data.imgurls.length; k++) {
-    //   console.log(">>>imgurl " + k + " " + that.data.imgurls[k])
-    // }
-
-    //更新患者信息
-    let p = new Promise((resolve, reject) => {
-      wx.request({
-        url: api.apiurl + "/xiusers/patient/" + newPatId + "/",
-        method: 'PUT',
-        data: {
-          "username": that.data.patname,
-          "sex": that.data.currentsex,
-          "age": that.data.patage,
-          "nick_name": "苦海寻医",
-          "id_card": "110101198010010001",
-          "birthday": "1980-10-01"
-        },
-        header: {
-          'content-type': 'application/json', // 默认值
-          "Authorization": "Bearer " + actoken
-        },
-        success: function(res) {
-          console.log(res.data)
-          // wx.showToast({
-          //   title: '更新成功',
-          //   icon: 'success',
-          //   duration: 1000,
-          // })
-          resolve(res.data)
-        },
-        fail: function(err) {
-          console.log(err)
-          wx.showToast({
-            title: '更新失败',
-            icon: 'none',
-            duration: 1000,
-          })
-          reject(err)
-        }
-      })
-    })
-
-    return p
-  },
-
+  
   //创建咨询信息
   createConsult: function(data) {
     let that = this
@@ -386,8 +178,8 @@ Page({
         url: api.apiurl + "/consult/",
         method: 'POST',
         data: {
-          "patient": patid,
-          "doctor": parseInt(doctorID),
+          "patient": parseInt(that.data.patid),
+          "doctor": parseInt(that.data.docid),
           "desc": that.data.patconsult,
           "img1_url": that.data.imgurls[0] ? that.data.imgurls[0] : "null",
           "img2_url": that.data.imgurls[1] ? that.data.imgurls[1] : "null",
@@ -402,11 +194,11 @@ Page({
         success: function(res) {
           console.log(res.data)
           that.data.images = []
-          wx.showToast({
-            title: '提交成功，请等待医生回复！',
-            icon: 'success',
-            duration: 1000,
-          })
+          $Message({
+            content: '提交成功，请等待专家回复！',
+            type: 'success',
+            duration: 3
+          });
           resolve(res.data) //生成的咨询信息
         },
         fail: function(err) {
@@ -425,30 +217,21 @@ Page({
    */
   onLoad: function(options) {
     let that = this
-    doctorID = 1
-    //options.q的场景仅仅用于微信后台配置的有限测试二维码
-    if (options.q) {
-      var link = options.q;　　
-      console.log(">>>OnLoad q get link as " + link);      
-      doctorID = link.charAt(link.length - 1)
-      console.log(">>>OnLoad q get doctor id: " + doctorID)
-    }
-    
-    //scene的场景是通用的，将来由服务端后台动态生成每个医生的二维码
-    if (options.scene) {
-      var scene = decodeURIComponent(options.scene)
-      console.log(">>>OnLoad scene get input parameter: " + scene)
-      
-      let tmpArr = scene.split("-")
-      doctorID = tmpArr[1]
-      console.log(">>>OnLoad get doctor id: " + doctorID)
-    }
+    that.setData({
+      docid: options.docid,
+      patid: options.patid
+    })
+
+    console.log(">>>OnLoad option get patient id: " + that.data.patid)
+    console.log(">>>OnLoad option get doctor id: " + that.data.docid)
 
     that.myinit().then(function(data) {
       actoken = data
       console.log(">>>getting token success! " + actoken)
       that.getDoctorInfo().then(function(res) {
-        that.setWelcomeTitle(res)
+        that.setData({
+          doctordetail: res
+        })
       })
     })
   },
@@ -461,21 +244,14 @@ Page({
     return p
   },
 
+  //获取医生信息
   getDoctorInfo() {
-    let url = api.apiurl + "/xiusers/doctor/" + doctorID + "/"
+    let that = this
+    let url = api.apiurl + "/xiusers/doctor/" + that.data.docid + "/"
     console.log(">>>doctor info url " + url)
     let param = ""
     let p = api.getData(url, param, actoken)
     return p
-  },
-
-  setWelcomeTitle(res) {
-    let that = this
-    console.log(">>>welcome title " + res['username'])
-    that.setData({
-      docname: res['username'],
-      clinicname: res['hospital']
-    })
   },
 
 

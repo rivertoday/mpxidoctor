@@ -25,6 +25,12 @@ Page({
     })
   },
 
+  patregister: function () {
+    wx.navigateTo({
+      url: '/pages/patregister/patregister?title=patregister'
+    })
+  },
+
   patlogin: function () {
     let that = this
     that.myLogin().then(function(res){

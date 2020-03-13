@@ -8,10 +8,10 @@
     "i-tag": "../../dist/tag/index",
     "i-notice-bar": "../../dist/notice-bar/index",
     "i-message": "../../dist/message/index",
-    "i-radio-group": "../../dist/radio-group/index",
+    "i-radio-group": "../../dist/radio-group/index",    
     "i-radio": "../../dist/radio/index",
-    "i-modal": "../../dist/modal/index",
-    "i-divider": "../../dist/divider/index"
+    "i-input-number": "../../dist/input-number/index",
+    "i-modal": "../../dist/modal/index"
   },
-  "navigationBarTitleText": "专家注册"
+  "navigationBarTitleText": "用户注册"
 }

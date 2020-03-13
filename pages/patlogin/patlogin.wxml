@@ -3,11 +3,14 @@
   患者用户登录界面
 </i-notice-bar>
 <i-row>
-  <i-input title="手机：" type="number" bind:blur="inputMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您提交咨询时的手机号" />
-  <i-input title="密码：" type="password" bind:blur="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="如果没改过，就填您的手机号码" />
-  </i-row>
+  <i-input title="手机：" type="number" bind:blur="inputMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
+  <i-input title="密码：" type="password" bind:blur="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您设置的密码" />
+</i-row>
 <i-row>
-  <view>
-    <i-button type="success" bind:click="patlogin" size="large">登录</i-button>
-  </view>
+  <i-col span="12" i-class="col-class">
+    <i-button type="success" bind:click="patlogin" size="default">登录</i-button>
+  </i-col>
+  <i-col span="12" i-class="col-class">
+    <i-button type="info" bind:click="patregister" size="default">我要注册</i-button>
+  </i-col>
 </i-row>

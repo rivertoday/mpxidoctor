@@ -3,27 +3,13 @@
   请就您的健康问题向专家咨询
 </i-notice-bar>
 <view class="i-sticky-demo-des">
-  您好，这里是来自 【{{clinicname}}】 的 【{{docname}}】 医生，大医精诚，为您服务！
+  您好，这里是来自 【{{doctordetail.hospital}}】 的 【{{doctordetail.username}}】 专家，大医精诚，为您服务！
 </view>
 
-<i-row>
-  <i-input title="您的姓名" type="textarea" bind:blur="inputPatNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
-  <i-input title="您的手机" type="textarea" bind:blur="inputPatMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
-  <i-panel title="您的性别">
-  <text>您的性别</text>
-    <i-radio-group current="{{currentsex}}" bindchange="handlePatSexChange">
-      <i-radio wx:for="{{patsex}}" position="{{positionsex}}" wx:key="{{item.id}}" value="{{item.name}}">
-      </i-radio>
-    </i-radio-group>
-  </i-panel>
-  <i-panel title="您的年龄">
-  <text>您的年龄</text>
-    <view style="padding: 16px">
-      <i-input-number value="{{ patage }}" min="6" max="100" bindchange="handlePatAgeChange" />
-    </view>
-  </i-panel>
+
+<view>
   <i-input title="咨询描述" type="textarea" bind:blur="inputConsultEvent" mode="wrapped" maxlength="300" placeholder="请填写您的健康咨询问题" />
-</i-row>
+</view>
 <i-row>
   <i-icon type="camera" size="56" color="#80848f" />
   <text>上传图片（相关诊断报告或者影像）</text>

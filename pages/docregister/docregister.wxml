@@ -1,27 +1,44 @@
 <!--pages/docregister/docregister.wxml-->
 <i-notice-bar>
-  请填写下列信息注册您的医生账号！
+  请填写下列信息注册您的专家账号，需要通过后台审核！
+</i-notice-bar>
+<i-notice-bar>
+  通过后台审核后，会给您创建一张专属二维码！
 </i-notice-bar>
 <i-row>
+  <i-divider content="您的基本信息" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
   <i-input title="您的姓名" type="textarea" bind:blur="inputDocNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
-  <i-input title="您的手机" type="textarea" bind:blur="inputDocMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
+  <i-input title="您的手机" type="number" bind:blur="inputDocMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
+  <!--
+  <i-row>
+    <i-col span="8" i-class="col-class">
+      <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="normal" maxlength="6" placeholder="验证码" />
+    </i-col>
+    <i-col span="8" i-class="col-class">
+      <i-button bind:click="sendSms" size="small">{{valcodeinfo}}</i-button>
+    </i-col>
+  </i-row>
+  -->
+  <i-panel title="您的性别">
+    <text>您的性别</text>
+    <i-radio-group current="{{currentsex}}" bindchange="handleDocSexChange">
+      <i-radio wx:for="{{docsex}}" position="{{positionsex}}" wx:key="{{item.id}}" value="{{item.name}}">
+      </i-radio>
+    </i-radio-group>
+  </i-panel>
+</i-row>
+<i-row>
+  <i-divider content="您的执业信息" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
   <i-input title="诊所名称" type="textarea" bind:blur="inputClinicNameEvent" mode="wrapped" maxlength="100" placeholder="请填写您所在的诊所名称" />
-  <i-input title="密码" type="password" bind:blur="inputDocPassEvent" mode="wrapped" maxlength="20" placeholder="请设置您的登录密码" />
-  <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码" />
+  <i-input title="执业点" type="textarea" bind:blur="inputLicenseEvent" mode="wrapped" maxlength="50" placeholder="请填写您执业证上的医院名称" />
+  <i-input title="擅长诊疗方向" type="textarea" bind:blur="inputAreaEvent" mode="wrapped" maxlength="100" placeholder="请填写您擅长的诊疗方向(100字以内)" />
+  <i-input title="自我介绍" type="textarea" bind:blur="inputIntroEvent" mode="wrapped" maxlength="100" placeholder="请用一句话进行自我介绍（100字以内）" />
 </i-row>
-<!--
+
 <i-row>
-  <i-col span="8" i-class="col-class">
-    <i-input title="" type="textarea" bind:blur="inputValCodeEvent" mode="normal" maxlength="6" placeholder="验证码" />
-  </i-col>
-  <i-col span="8" i-class="col-class">
-    <i-button bind:click="sendSms" size="small">{{valcodeinfo}}</i-button>
-  </i-col>
-</i-row>
--->
-<i-row>
+  <i-divider content="还需要图片进行审核" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
   <i-icon type="camera" size="56" color="#80848f" />
-  <text>上传两张图片（您的头像和诊所图片）</text>
+  <text>上传三张图片（头像，诊所，营业执照）</text>
 </i-row>
 <i-row>
   <view class="publish_imgs_area">
@@ -33,12 +50,17 @@
       </view>
     </view>
     <!-- 图片上传图片按钮 -->
-    <view class="imgs_area" bindtap="chooseImage" wx:if="{{images.length < 2}}">
+    <view class="imgs_area" bindtap="chooseImage" wx:if="{{images.length < 3}}">
       <view class="image_item">
         <image class="image_content" src="../../images/upload.png" mode="aspectFill" />
       </view>
     </view>
   </view>
+</i-row>
+<i-row>
+  <i-divider content="请牢记您的密码" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+  <i-input title="密码" type="password" bind:blur="inputDocPassEvent" mode="wrapped" maxlength="20" placeholder="请设置您的登录密码" />
+  <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码" />
 </i-row>
 <i-row>
   <view>
@@ -53,3 +75,5 @@
 <i-modal visible="{{ visiblePass }}" bind:ok="handlePassClose" bind:cancel="handlePassClose">
   <view>对不起，您两次输入的密码不一致！</view>
 </i-modal>
+
+<i-message id="message" />

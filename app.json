@@ -9,7 +9,9 @@
     "pages/doclogin/doclogin",
     "pages/patlogin/patlogin",
     "pages/consult/consult",
-    "pages/answer/answer"
+    "pages/answer/answer",
+    "pages/patregister/patregister",
+    "pages/docmain/docmain"
   ],
   "window": {
     "backgroundTextStyle": "light",

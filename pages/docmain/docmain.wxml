@@ -1,0 +1,30 @@
+<!--pages/docmain/docmain.wxml-->
+<i-notice-bar>
+  欢迎您向专家咨询，大医精诚，为您服务！
+</i-notice-bar>
+<!--
+<view class="i-sticky-demo-des">
+  您好，这里是来自 【{{doctordetail.hospital}}】 的 【{{doctordetail.username}}】 专家
+</view>
+-->
+<i-card title="{{doctordetail.username}}  {{doctordetail.sex}}" extra="{{doctordetail.hospital}}" thumb="{{doctordetail.user_img}}">
+    <view slot="content">
+     <i-row><i-icon type="like_fill" size="28" color="#80848f" />擅长诊疗：</i-row>
+    <i-row>{{doctordetail.good_at}}</i-row>
+    <i-row><i-icon type="mine_fill" size="28" color="#80848f" />自我介绍：</i-row>
+    <i-row>{{doctordetail.summary}}</i-row>
+    <i-row><i-icon type="homepage_fill" size="28" color="#80848f" />诊所照片</i-row>
+    <i-row><image src="{{doctordetail.hospital_img}}" /></i-row>
+    </view>
+    <view slot="footer">{{doctordetail.nick_name}}</view>
+</i-card>
+
+<i-row>
+  <view>
+    <i-button type="success" bind:click="orderConsult" size="large">向专家咨询</i-button>
+  </view>
+</i-row>
+
+<i-message id="message" />
+
+

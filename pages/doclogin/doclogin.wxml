@@ -1,13 +1,16 @@
 <!--pages/doclogin/doclogin.wxml-->
 <i-notice-bar>
-  医生工作站登录界面，密码为您注册时设定的密码
+  专家工作站登录界面，密码为您注册时设定的密码
 </i-notice-bar>
 <i-row>
   <i-input title="手机：" type="number" bind:blur="inputMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
   <i-input title="密码：" type="password" bind:blur="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您的密码" />
   </i-row>
 <i-row>
-  <view>
-    <i-button type="success" bind:click="doclogin" size="large">登录</i-button>
-  </view>
+  <i-col span="12" i-class="col-class">
+    <i-button type="success" bind:click="doclogin" size="default">登录</i-button>
+  </i-col>
+  <i-col span="12" i-class="col-class">
+    <i-button type="info" bind:click="docregister" size="default">我要注册</i-button>
+  </i-col>
 </i-row>

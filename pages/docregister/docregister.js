@@ -1,6 +1,7 @@
 // pages/docregister/docregister.js
 const app = getApp()
 const api = require('../../utils/api')
+const { $Message } = require('../../dist/base/index')
 
 var actoken = ""
 
@@ -14,11 +15,26 @@ Page({
     imgurls: [],
     docname: '',
     docmobile: '',
+    docsex: [{
+      id: 1,
+      name: '男',
+    }, {
+      id: 2,
+      name: '女',
+    }, {
+      id: 3,
+      name: '未知',
+    }],
+    currentsex: '未知',
+    positionsex: 'left',
     clinicname: '',
     password: '',
     subpassword: '',
     valcodeinfo: '发送验证码',
-    validate_code: '',
+    validate_code: '123123',
+    license: '',
+    diagarea: '',
+    selfintro: '',
     visibleDlg: false,
     hintDlginfo: '',
     visiblePass: false,
@@ -33,6 +49,14 @@ Page({
     this.setData({
       visiblePass: false
     });
+  },
+  handleDocSexChange({
+    detail = {}
+  }) {
+    this.setData({
+      currentsex: detail.value
+    });
+    console.log(">>>doctor sex is " + this.data.currentsex)
   },
 
   inputDocNameEvent: function(e) {
@@ -72,6 +96,24 @@ Page({
     console.log(">>>inputValCodeEvent: " + e.detail.detail.value)
     this.setData({
       validate_code: e.detail.detail.value
+    })
+  },
+  inputLicenseEvent: function (e) {
+    console.log(">>>inputLicenseEvent: " + e.detail.detail.value)
+    this.setData({
+      license: e.detail.detail.value
+    })
+  },
+  inputAreaEvent: function (e) {
+    console.log(">>>inputAreaEvent: " + e.detail.detail.value)
+    this.setData({
+      diagarea: e.detail.detail.value
+    })
+  },
+  inputIntroEvent: function (e) {
+    console.log(">>>inputIntroEvent: " + e.detail.detail.value)
+    this.setData({
+      selfintro: e.detail.detail.value
     })
   },
 
@@ -141,6 +183,33 @@ Page({
       });
       return
     }
+    if (that.data.license == '') {
+      that.setData({
+        hintDlginfo: '执业点'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.diagarea == '') {
+      that.setData({
+        hintDlginfo: '擅长诊疗方向'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.selfintro == '') {
+      that.setData({
+        hintDlginfo: '自我介绍'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
     if (that.data.password == '' || that.data.subpassword == '') {
       that.setData({
         hintDlginfo: '密码'
@@ -156,9 +225,9 @@ Page({
       });
       return
     }
-    if (that.data.images.length < 2) {
+    if (that.data.images.length < 3) {
       that.setData({
-        hintDlginfo: '您的头像和诊所图片'
+        hintDlginfo: '您的头像、诊所和营业执照图片'
       })
       that.setData({
         visibleDlg: true
@@ -277,13 +346,10 @@ Page({
         url: api.apiurl + "/xiusers/doctor/register/",
         method: 'POST',
         data: {
-          //"username": that.data.docname,
           "mobile": that.data.docmobile,
           "password": that.data.password,
           "subpassword": that.data.subpassword,
-          //"hospital": that.data.clinicname,
-          //"hospital_img": that.data.imgurls[1],
-          "validate_code": 123456//that.data.validate_code
+          "validate_code": that.data.validate_code
         },
         header: {
           'content-type': 'application/json', // 默认值
@@ -319,7 +385,7 @@ Page({
         method: 'PUT',
         data: {
           "username": that.data.docname,
-          "sex": "未知",
+          "sex": that.data.currentsex,
           "nick_name": "医之大者",
           "user_img": that.data.imgurls[0],
           "id_card": "110101195010010001",
@@ -327,9 +393,10 @@ Page({
           "hospital": that.data.clinicname,
           "hospital_img": that.data.imgurls[1],
           "department": "未知",
-          "good_point": "国医堂",
-          "good_at": "养心正气",
-          "summary": "医者仁心"          
+          "good_point": that.data.license,
+          "good_at": that.data.diagarea,
+          "cert_img": that.data.imgurls[2],
+          "summary": that.data.selfintro          
         },
         header: {
           'content-type': 'application/json', // 默认值
@@ -338,8 +405,13 @@ Page({
         success: function(res) {
           console.log(res.data)
           that.data.images = []
+          $Message({
+            content: '注册成功，请等待审核结果！',
+            type: 'success',
+            duration: 3
+          });
           wx.showToast({
-            title: '注册成功，请等待审核结果！',
+            title: '注册成功!',
             icon: 'success',
             duration: 2000,
           })
@@ -347,11 +419,11 @@ Page({
         },
         fail: function(err) {
           console.log(err)
-          wx.showToast({
-            title: '注册失败，请重新进入页面提交数据！',
-            icon: 'none',
-            duration: 2000,
-          })
+          $Message({
+            content: '注册失败，请检查并修改您的数据，重新提交！',
+            type: 'error',
+            duration: 3
+          });
           reject(err)
         }
       })      
