@@ -35,35 +35,6 @@ Page({
     })
 
     actoken = wx.getStorageSync("pat_token");
-
-
-    that.getConsult().then(function(data) {
-      console.log(">>>get consult detail " + data)
-      let tmpArray = []
-      if (data.img1_url != "null") {
-        tmpArray.push(data.img1_url)
-      }
-      if (data.img2_url != "null") {
-        tmpArray.push(data.img2_url)
-      }
-      if (data.img3_url != "null") {
-        tmpArray.push(data.img3_url)
-      }
-
-      that.setData({
-        consultdetail: data,
-        consultimgs: tmpArray,
-        docid: data.doctor
-      })
-
-      that.getDoctor().then(function(res) {
-        that.setData({
-          docname: res.username
-        })
-      })
-    })
-
-
   },
 
   // 获取医生信息
@@ -95,7 +66,32 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let that = this
+    that.getConsult().then(function (data) {
+      console.log(">>>get consult detail " + data)
+      let tmpArray = []
+      if (data.img1_url != "null") {
+        tmpArray.push(data.img1_url)
+      }
+      if (data.img2_url != "null") {
+        tmpArray.push(data.img2_url)
+      }
+      if (data.img3_url != "null") {
+        tmpArray.push(data.img3_url)
+      }
 
+      that.setData({
+        consultdetail: data,
+        consultimgs: tmpArray,
+        docid: data.doctor
+      })
+
+      that.getDoctor().then(function (res) {
+        that.setData({
+          docname: res.username
+        })
+      })
+    })
   },
 
   /**

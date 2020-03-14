@@ -44,7 +44,7 @@ Page({
       } else {
         //将医生登录的token保存到本地storage
         wx.setStorageSync("doc_token", res);
-        wx.navigateTo({
+        wx.reLaunch({
           url: '/pages/docdashboard/docdashboard?title=docdashboard&&docmobile='+that.data.docmobile
         })
       }    
@@ -64,7 +64,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.clearStorageSync()
   },
 
   /**

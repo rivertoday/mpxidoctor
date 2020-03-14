@@ -4,9 +4,8 @@
 <i-notice-bar>
   专家工作站
 </i-notice-bar>
-<view class="i-sticky-demo-des">
-  请查看下面患者的咨询请求
-</view>
+
+<i-divider content="患者向您发起的咨询请求" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
 
 <i-cell-group>
   <block wx:for="{{consults}}" wx:key="*this">

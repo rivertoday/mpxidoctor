@@ -25,17 +25,6 @@ Page({
     })
 
     actoken = wx.getStorageSync("doc_token");
-    
-    that.findDoctorId().then(function(docres) {
-      console.log(">>>get doctor info " + docres.results[0])
-      let docid = docres.results[0].id
-      that.getPatientConsults(docid).then(function(data) {
-        console.log(">>>get doctor related patient consult info " + data)
-        that.setData({
-          consults: data.results
-        })
-      })
-    })
   },
 
   findDoctorId() {
@@ -65,7 +54,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    let that = this
+    that.findDoctorId().then(function (docres) {
+      console.log(">>>get doctor info " + docres.results[0])
+      let docid = docres.results[0].id
+      that.getPatientConsults(docid).then(function (data) {
+        console.log(">>>get doctor related patient consult info " + data)
+        that.setData({
+          consults: data.results
+        })
+      })
+    })
   },
 
   /**

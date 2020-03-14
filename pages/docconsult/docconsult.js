@@ -17,12 +17,18 @@ Page({
     patmobile: '',
     patconsult: '',
     doctordetail: {},
-    visibleDlg: false,
+    visibleDlg: false,    
     hintDlginfo: '',
+    visibleOK: false,
   },  
   handleDlgClose() {
     this.setData({
       visibleDlg: false
+    });
+  },
+  handleOKClose() {
+    this.setData({
+      visibleOK: false
     });
   },
 
@@ -119,9 +125,23 @@ Page({
               //创建咨询单
               that.createConsult().then(function(data) {
                 console.log(data);
-                wx.navigateTo({
-                  url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile='+that.data.patmobile
-                })              
+                that.data.images = []
+                $Message({
+                  content: '提交成功，请等待专家回复！',
+                  type: 'success',
+                  duration: 3
+                });
+                wx.showModal({
+                  title: '提交成功',
+                  showCancel: false, 
+                  success: function (sres) {
+                    if (sres.confirm) {
+                      wx.reLaunch({
+                        url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile=' + that.data.patmobile
+                      })
+                    }
+                  }
+                })                              
               })
 
             }).catch((error) => {
@@ -195,13 +215,7 @@ Page({
           "Authorization": "Bearer " + actoken
         },
         success: function(res) {
-          console.log(res.data)
-          that.data.images = []
-          $Message({
-            content: '提交成功，请等待专家回复！',
-            type: 'success',
-            duration: 3
-          });
+          console.log(res.data)                    
           resolve(res.data) //生成的咨询信息
         },
         fail: function(err) {

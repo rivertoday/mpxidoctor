@@ -34,7 +34,7 @@ Page({
         type: 'warning',
         duration: 3
       });
-      wx.navigateTo({
+      wx.reLaunch({
         url: '/pages/patlogin/patlogin?title=patlogin'
       })
     }

@@ -162,7 +162,7 @@ Page({
               that.registerPatient().then(function(data) {
                 console.log(data);
                 that.updatePatient(data).then(function(res){
-                  wx.navigateTo({
+                  wx.redirectTo({
                     url: '/pages/patlogin/patlogin?title=patlogin'
                   })
                 });

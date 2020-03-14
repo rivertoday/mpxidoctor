@@ -16,6 +16,7 @@ Page({
     })
   },
   onLoad: function () {
+    wx.clearStorageSync()
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

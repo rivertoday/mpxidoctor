@@ -44,7 +44,7 @@ Page({
       }else{
         //将患者登录的token保存到本地storage
         wx.setStorageSync("pat_token", res);
-        wx.navigateTo({
+        wx.reLaunch({
           url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile='+that.data.patmobile
         })
       }
@@ -64,7 +64,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.clearStorageSync()
   },
 
   /**

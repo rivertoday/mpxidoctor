@@ -46,42 +46,6 @@ Page({
     })
 
     actoken = wx.getStorageSync("doc_token");
-
-    that.getConsult().then(function(data) {
-      console.log(">>>get consult detail " + data)
-
-      let tmpArray = []
-      if (data.img1_url != "null") {
-        tmpArray.push(data.img1_url)
-      }
-      if (data.img2_url != "null") {
-        tmpArray.push(data.img2_url)
-      }
-      if (data.img3_url != "null") {
-        tmpArray.push(data.img3_url)
-      }
-
-      if (data.status == "已经回答") {
-        that.setData({
-          isReplied: true
-        })
-      }
-
-      that.setData({
-        consultdetail: data,
-        consultimgs: tmpArray,
-        patid: data.patient,
-        docid: data.doctor
-      })
-
-      that.getPatient().then(function(res) {
-        that.setData({
-          patname: res.username,
-          patsex: res.sex,
-          patage: res.age
-        })
-      })
-    })
   },
 
   // 获取患者信息
@@ -139,7 +103,7 @@ Page({
           icon: 'success',
           duration: 2000,
         })
-        that.onLoad()
+        that.onShow()
       }else {
         wx.showToast({
           title: '抱歉出了意外',
@@ -161,7 +125,42 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    let that = this
+    that.getConsult().then(function (data) {
+      console.log(">>>get consult detail " + data)
 
+      let tmpArray = []
+      if (data.img1_url != "null") {
+        tmpArray.push(data.img1_url)
+      }
+      if (data.img2_url != "null") {
+        tmpArray.push(data.img2_url)
+      }
+      if (data.img3_url != "null") {
+        tmpArray.push(data.img3_url)
+      }
+
+      if (data.status == "已经回答") {
+        that.setData({
+          isReplied: true
+        })
+      }
+
+      that.setData({
+        consultdetail: data,
+        consultimgs: tmpArray,
+        patid: data.patient,
+        docid: data.doctor
+      })
+
+      that.getPatient().then(function (res) {
+        that.setData({
+          patname: res.username,
+          patsex: res.sex,
+          patage: res.age
+        })
+      })
+    })
   },
 
   /**

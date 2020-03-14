@@ -40,5 +40,8 @@
 <i-modal visible="{{ visibleDlg }}" bind:ok="handleDlgClose" bind:cancel="handleDlgClose">
   <view>请您补充{{hintDlginfo}}</view>
 </i-modal>
+<i-modal visible="{{ visibleOK }}" bind:ok="handleOKClose" bind:cancel="handleOKClose">
+  <view>提交成功，请等待专家回复！</view>
+</i-modal>
 
 <i-message id="message" />

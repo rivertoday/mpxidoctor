@@ -265,8 +265,13 @@ Page({
               if (data.count > 0) {//存在，更新医生数据
                 let docid = data.results[0].id
                 console.log(">>>found doctor " + docid)
+                $Message({
+                  content: '抱歉，您的手机号已经注册过了',
+                  type: 'warning',
+                  duration: 3
+                });
                 wx.showToast({
-                  title: '抱歉，您的手机号已经注册过了',
+                  title: '手机号已注册',
                   icon: 'none',
                   duration: 2000,
                 })
@@ -274,7 +279,12 @@ Page({
                 //注册医生
                 that.registerDoctor().then(function (data) {
                   console.log(data);
-                  return that.updateDoctor(data);
+                  that.updateDoctor(data).then(function(dres){
+                    that.data.images = []
+                    wx.redirectTo({
+                      url: '/pages/doclogin/doclogin?title=doclogin'
+                    })
+                  })
                 })
               }
             })
