@@ -14,8 +14,8 @@ Page({
     imgurls: [],
     patid: '',
     docid: '',
+    patmobile: '',
     patconsult: '',
-    patientdetail: {},
     doctordetail: {},
     visibleDlg: false,
     hintDlginfo: '',
@@ -118,7 +118,10 @@ Page({
 
               //创建咨询单
               that.createConsult().then(function(data) {
-                console.log(data);                
+                console.log(data);
+                wx.navigateTo({
+                  url: '/pages/patdashboard/patdashboard?title=patdashboard&&patmobile='+that.data.patmobile
+                })              
               })
 
             }).catch((error) => {
@@ -232,6 +235,11 @@ Page({
         that.setData({
           doctordetail: res
         })
+        that.getPatientMobile().then(function(patres){
+          that.setData({
+            patmobile: patres.mobile
+          })
+        })
       })
     })
   },
@@ -249,6 +257,16 @@ Page({
     let that = this
     let url = api.apiurl + "/xiusers/doctor/" + that.data.docid + "/"
     console.log(">>>doctor info url " + url)
+    let param = ""
+    let p = api.getData(url, param, actoken)
+    return p
+  },
+
+  //获取患者手机，用于咨询提交成功后跳转回患者主页面
+  getPatientMobile() {
+    let that = this
+    let url = api.apiurl + "/xiusers/patient/" + that.data.patid + "/"
+    console.log(">>>patient info url " + url)
     let param = ""
     let p = api.getData(url, param, actoken)
     return p

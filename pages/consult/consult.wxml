@@ -3,9 +3,9 @@
   咨询详情
 </i-notice-bar>
 
-<i-card title="{{docname}}  医生" extra="{{consultdetail.created_time}}" thumb="../../images/doctor.png">
+<i-card title="{{docname}}  专家" extra="{{consultdetail.created_time}}" thumb="../../images/doctor.png">
   <view slot="content">
-    <i-row>|您的咨询描述：</i-row>
+    <i-row><i-icon type="feedback" size="28" color="#80848f" />您的咨询描述：</i-row>
     <i-row>{{consultdetail.desc}}</i-row>
     <view class="publish_imgs_area">
     <!-- 图片 -->
@@ -15,7 +15,7 @@
       </view>
     </view>
   </view>
-    <i-row>|医生的回复建议：</i-row>
+    <i-row><i-icon type="document" size="28" color="#80848f" />医生的回复建议：</i-row>
     <i-row>{{consultdetail.answer}}</i-row>
   </view>
   <view slot="footer">{{consultdetail.status}}</view>

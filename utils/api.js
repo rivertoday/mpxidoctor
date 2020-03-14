@@ -1,5 +1,6 @@
 //import regeneratorRuntime from 'runtime.js'
 const apiurl = "http://127.0.0.1:8000"
+//const apiurl = "https://www.rivertoday.tech"
 const client_id = "dmCgAL4L4C7zxTpgViMN7FzujAe9Mftj0wZyU89r"
 const client_secret = "Cudzs5RtONgDZnG8GFfuLtxQoXteH57nxiL6ePHih9QOx43kol5mWm83DLeoALL3dyO8cUts8SRaQCdJbRE7y30XCUloLUpM4FFRnMxQCVIIMWMheelHMNCkjQqEsgyU"
 const scope_users = "users"
@@ -42,7 +43,7 @@ const getAccessToken = (mobile, password) => {
   })
 }
 
-// request get 请求
+// request get 查询请求
 const getData = (url, param, token) => {
   return new Promise((resolve, reject) => {
     wx.request({
@@ -66,13 +67,41 @@ const getData = (url, param, token) => {
   })
 }
 
-// request post 请求
-const postData = (url, param) => {
+// request post 创建请求
+const postData = (url, param, token) => {
   return new Promise((resolve, reject) => {
     wx.request({
       url: url,
       method: 'POST',
       data: param,
+      header: {
+        'content-type': 'application/json', // 默认值
+        "Authorization": "Bearer " + token
+      },
+      success(res) {
+        var json = res.data;
+        console.log(json)
+        resolve(json)
+      },
+      fail(err) {
+        console.log(err)
+        reject(err)
+      }
+    })
+  })
+}
+
+// request put 更新请求
+const putData = (url, param, token) => {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: url,
+      method: 'PUT',
+      data: param,
+      header: {
+        'content-type': 'application/json', // 默认值
+        "Authorization": "Bearer " + token
+      },
       success(res) {
         var json = res.data;
         console.log(json)
@@ -96,4 +125,5 @@ module.exports = {
   getAccessToken: getAccessToken,
   getData: getData,
   postData: postData,
+  putData: putData,
 }

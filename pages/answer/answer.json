@@ -5,6 +5,7 @@
     "i-row": "../../dist/row/index",
     "i-col": "../../dist/col/index",
     "i-input": "../../dist/input/index",
+    "i-icon": "../../dist/icon/index",
     "i-button": "../../dist/button/index"
   },
   "navigationBarTitleText": "我来回复"

@@ -49,11 +49,12 @@ Page({
       docid: '30'
     })
     //患者看到医生列表页面，点击跳转到这个医生详情页面，传递过来患者id和医生id
-    if (options.patid) {
+    if (options.docid || options.patid) {
       that.setData({
         patid: options.patid,
         docid: options.docid
       })
+      console.log(">>>doctor main page get pat id " + that.data.patid + " and doc id " + that.data.docid)
     }
 
     //options.q的场景仅仅用于微信后台配置的有限测试二维码

@@ -40,3 +40,5 @@
 <i-modal visible="{{ visibleDlg }}" bind:ok="handleDlgClose" bind:cancel="handleDlgClose">
   <view>请您补充{{hintDlginfo}}</view>
 </i-modal>
+
+<i-message id="message" />

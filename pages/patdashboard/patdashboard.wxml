@@ -2,21 +2,39 @@
 <wxs src="../../utils/subutils.wxs" module="tools" />
 
 <i-notice-bar>
-  我的咨询页面
+  寻找专家，排忧解难
 </i-notice-bar>
-<view class="i-sticky-demo-des">
-  查看下面我的咨询请求以及医生的回复
+
+<view wx:if="{{tab_group}}" class='group'>
+  <i-divider content="请查找您喜欢的专家" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+   <i-cell-group>
+      <block wx:for="{{doctors}}" wx:key="*this">
+        <i-cell title="{{item.username}} {{item.sex}}" value="{{item.hospital}}" is-link url="/pages/docmain/docmain?docid={{item.id}}&&patid={{patid}}">
+            <i-icon slot="icon" type="addressbook" size="28" color="#228B22" />
+        </i-cell>
+      </block>
+    </i-cell-group>
+</view>
+<view wx:if="{{tab_mine}}" class='mine'>
+  <i-divider content="下面是您的咨询请求" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+    <i-cell-group>
+      <block wx:for="{{consults}}" wx:key="*this">
+        <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}">
+          <block wx:if="{{item.status=='已经回答'}}">
+            <i-icon slot="icon" type="activity" size="28" color="#228B22" />
+          </block>
+          <block wx:else>
+            <i-icon slot="icon" type="activity" size="28" color="#FF3030" />
+          </block>
+        </i-cell>
+      </block>
+    </i-cell-group>
 </view>
 
-<i-cell-group>
-  <block wx:for="{{consults}}" wx:key="*this">
-    <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}">
-    <block wx:if="{{item.status=='已经回答'}}">
-        <i-icon slot="icon" type="activity" size="28" color="#228B22" />
-      </block>
-      <block wx:else>
-        <i-icon slot="icon" type="activity" size="28" color="#FF3030" />
-      </block>
-    </i-cell>
-  </block>
-</i-cell-group>
+
+
+<i-tab-bar current="{{ currenttab }}" color="#228B22" fixed="true" bindchange="handleTabChange">
+  <i-tab-bar-item key="group" icon="group" current-icon="group_fill" title="专家"></i-tab-bar-item>
+  <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的">    
+  </i-tab-bar-item>
+</i-tab-bar>

@@ -5,9 +5,9 @@
 
 <i-card title="{{patname}}  患者" extra="{{consultdetail.created_time}}" thumb="../../images/patient.png">
   <view slot="content">
-    <i-row>|这里是患者的基本信息：</i-row>
+    <i-row><i-icon type="document" size="28" color="#80848f" />患者的基本信息：</i-row>
     <i-row>性别：{{patsex}}, 年龄：{{patage}}岁</i-row>
-    <i-row>|这里是患者的咨询描述：</i-row>
+    <i-row><i-icon type="feedback" size="28" color="#80848f" />患者的咨询描述：</i-row>
     <i-row>{{consultdetail.desc}}</i-row>
     <view class="publish_imgs_area">
       <!-- 图片 -->
@@ -17,7 +17,7 @@
         </view>
       </view>
     </view>
-    <i-row>|这里是您的宝贵建议：</i-row>
+    <i-row><i-icon type="editor" size="28" color="#80848f" />您的宝贵建议：</i-row>
     <i-row>
       <i-input title="回复" type="textarea" bind:blur="inputAnswerEvent" mode="wrapped" maxlength="300" placeholder="{{consultdetail.answer}}" /></i-row>
     <i-row>
