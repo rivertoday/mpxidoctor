@@ -34,9 +34,17 @@ Page({
         type: 'warning',
         duration: 3
       });
-      wx.reLaunch({
-        url: '/pages/patlogin/patlogin?title=patlogin'
-      })
+      wx.showModal({
+        title: '您尚未登录！',
+        showCancel: false,
+        success: function (sres) {
+          if (sres.confirm) {
+            wx.reLaunch({
+              url: '/pages/patlogin/patlogin?title=patlogin'
+            })
+          }
+        }
+      }) 
     }
   },
 
@@ -73,12 +81,21 @@ Page({
       console.log(">>>OnLoad scene get input parameter: " + scene)
 
       let tmpArr = scene.split("-")
-      that.setData({
-        patid: tmpArr[0],
-        docid: tmpArr[1]
-      })
-      console.log(">>>OnLoad scene get patient id: " + that.data.patid)
-      console.log(">>>OnLoad scene get doctor id: " + that.data.docid)
+      //判断字符串是否为数字 /^[0-9]+.?[0-9]*$/ 
+      //判断正整数 /^[1-9]+[0-9]*]*$/
+      var re = /^[1-9]+[0-9]*]*$/; 
+      if (re.test(tmpArr[0])) {
+        that.setData({
+          patid: tmpArr[0],
+        })
+        console.log(">>>OnLoad scene get patient id: " + that.data.patid)
+      }
+      if (re.test(tmpArr[1])) {
+        that.setData({
+          docid: tmpArr[1],
+        })
+        console.log(">>>OnLoad scene get doctor id: " + that.data.docid)
+      }
     }
 
     //执行异步函数
