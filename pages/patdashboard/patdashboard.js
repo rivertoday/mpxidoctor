@@ -1,5 +1,6 @@
 // pages/patdashboard/patdashboard.js
 const api = require('../../utils/api')
+const { $Message } = require('../../dist/base/index')
 var actoken = ""
 
 Page({
@@ -10,8 +11,13 @@ Page({
   data: {
     patid: '',
     patmobile: '',
+    patdetails: {},
+    curpass: '',
+    newpass: '',
+    newpass2: '',
     currenttab: 'group',
     tab_group: true,
+    tab_activity: false,
     tab_mine: false,
     consults: [
       // {
@@ -28,7 +34,21 @@ Page({
       //   desc: '肝有点疼',
       // }
     ],
-    doctors: []
+    doctors: [],
+    visibleDlg: false,
+    hintDlginfo: '',
+    visiblePass: false
+  },
+
+  handleDlgClose() {
+    this.setData({
+      visibleDlg: false
+    });
+  },
+  handlePassClose() {
+    this.setData({
+      visiblePass: false
+    });
   },
 
   handleTabChange({
@@ -42,14 +62,92 @@ Page({
     if (curkey == "group") {
       that.setData({
         tab_group: true,
+        tab_activity: false,
+        tab_mine: false
+      })
+    } else if (curkey == "activity") {
+      that.setData({
+        tab_group: false,
+        tab_activity: true,
         tab_mine: false
       })
     } else if (curkey == "mine") {
       that.setData({
         tab_group: false,
+        tab_activity: false,
         tab_mine: true
       })
     }
+  },
+
+  inputCurPasswordEvent: function (e) {
+    console.log(">>>inputCurPasswordEvent: " + e.detail.detail.value)
+    this.setData({
+      curpass: e.detail.detail.value
+    })
+  },
+  inputPasswordEvent: function (e) {
+    console.log(">>>inputPasswordEvent: " + e.detail.detail.value)
+    this.setData({
+      newpass: e.detail.detail.value
+    })
+  },
+  inputPassword2Event: function (e) {
+    console.log(">>>inputPassword2Event: " + e.detail.detail.value)
+    this.setData({
+      newpass2: e.detail.detail.value
+    })
+  },
+
+  patchgpass: function () {
+    let that = this
+    if (that.data.curpass == '') {
+      that.setData({
+        hintDlginfo: '当前密码'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.newpass == '' || that.data.newpass2 == '') {
+      that.setData({
+        hintDlginfo: '新密码'
+      })
+      that.setData({
+        visibleDlg: true
+      });
+      return
+    }
+    if (that.data.newpass != that.data.newpass2) {
+      that.setData({
+        visiblePass: true
+      });
+      return
+    }
+
+    let url = api.apiurl + "/xiusers/changepassword/"
+    let param = {
+      "old_password": that.data.curpass,
+      "new_password": that.data.newpass2
+    }
+    let p = api.putData(url, param, actoken)
+
+    p.then(function(res){
+      if (res.status == 'success') {
+        $Message({
+          content: '密码修改成功！',
+          type: 'success',
+          duration: 3
+        });
+      }else {
+        $Message({
+          content: '密码修改失败，请您重试',
+          type: 'error',
+          duration: 3
+        });
+      }
+    })
   },
 
   /**
@@ -117,7 +215,8 @@ Page({
       that.findPatientId().then(function(patres) {
         console.log(">>>get patient info " + patres.results[0])
         that.setData({
-          patid: patres.results[0].id
+          patid: patres.results[0].id,
+          patdetails: patres.results[0]
         })
         that.getPatientConsults().then(function(data) {
           console.log(">>>get patient consult info " + data)

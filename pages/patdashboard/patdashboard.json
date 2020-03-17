@@ -1,5 +1,9 @@
 {
   "usingComponents": {
+    "i-row": "../../dist/row/index",
+    "i-col": "../../dist/col/index",
+    "i-input": "../../dist/input/index",
+    "i-button": "../../dist/button/index",
     "i-sticky": "../../dist/sticky/index",
     "i-sticky-item": "../../dist/sticky-item/index",
     "i-notice-bar": "../../dist/notice-bar/index",
@@ -8,7 +12,9 @@
     "i-cell": "../../dist/cell/index",
     "i-icon": "../../dist/icon/index",
     "i-tab-bar": "../../dist/tab-bar/index",
-    "i-tab-bar-item": "../../dist/tab-bar-item/index"
+    "i-tab-bar-item": "../../dist/tab-bar-item/index",
+    "i-message": "../../dist/message/index",
+    "i-modal": "../../dist/modal/index"
   },
   "navigationBarTitleText": "我的咨询"
 }

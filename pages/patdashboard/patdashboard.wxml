@@ -7,34 +7,62 @@
 
 <view wx:if="{{tab_group}}" class='group'>
   <i-divider content="请查找您喜欢的专家" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
-   <i-cell-group>
-      <block wx:for="{{doctors}}" wx:key="*this">
-        <i-cell title="{{item.username}} {{item.sex}}" value="{{item.hospital}}" is-link url="/pages/docmain/docmain?docid={{item.id}}&&patid={{patid}}">
-            <i-icon slot="icon" type="addressbook" size="28" color="#228B22" />
-        </i-cell>
-      </block>
-    </i-cell-group>
+  <i-cell-group>
+    <block wx:for="{{doctors}}" wx:key="*this">
+      <i-cell title="{{item.username}} {{item.sex}}" value="{{item.hospital}}" is-link url="/pages/docmain/docmain?docid={{item.id}}&&patid={{patid}}">
+        <i-icon slot="icon" type="addressbook" size="28" color="#228B22" />
+      </i-cell>
+    </block>
+  </i-cell-group>
+</view>
+<view wx:if="{{tab_activity}}" class='activity'>
+  <i-divider content="下面是您的咨询请求" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+  <i-cell-group>
+    <block wx:for="{{consults}}" wx:key="*this">
+      <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}">
+        <block wx:if="{{item.status=='已经回答'}}">
+          <i-icon slot="icon" type="activity" size="28" color="#228B22" />
+        </block>
+        <block wx:else>
+          <i-icon slot="icon" type="activity" size="28" color="#FF3030" />
+        </block>
+      </i-cell>
+    </block>
+  </i-cell-group>
 </view>
 <view wx:if="{{tab_mine}}" class='mine'>
-  <i-divider content="下面是您的咨询请求" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
-    <i-cell-group>
-      <block wx:for="{{consults}}" wx:key="*this">
-        <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/consult/consult?consultid={{item.pk}}">
-          <block wx:if="{{item.status=='已经回答'}}">
-            <i-icon slot="icon" type="activity" size="28" color="#228B22" />
-          </block>
-          <block wx:else>
-            <i-icon slot="icon" type="activity" size="28" color="#FF3030" />
-          </block>
-        </i-cell>
-      </block>
-    </i-cell-group>
+  <i-row>
+    <i-input title="当前密码：" type="password" bind:blur="inputCurPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您当前的密码" />
+    <i-input title="新密码：" type="password" bind:blur="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您想设置的新密码" />
+    <i-input title="再输入一次新密码：" type="password" bind:blur="inputPassword2Event" mode="wrapped" maxlength="20" placeholder="请再次填写新密码" />
+  </i-row>
+  <i-row>
+    <i-col span="12" i-class="col-class">
+      <i-button type="success" bind:click="patchgpass" size="default">确定修改</i-button>
+    </i-col>
+  </i-row>
+  <i-divider content="您的详细信息" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+  <i-row>
+    <text>{{patdetails.username}}</text>
+  </i-row>
+  <i-row>
+    <text>{{patdetails.sex}}</text>
+  </i-row>
 </view>
 
 
 
 <i-tab-bar current="{{ currenttab }}" color="#228B22" fixed="true" bindchange="handleTabChange">
   <i-tab-bar-item key="group" icon="group" current-icon="group_fill" title="专家"></i-tab-bar-item>
-  <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的">    
-  </i-tab-bar-item>
+  <i-tab-bar-item key="activity" icon="activity" current-icon="activity_fill" title="咨询"></i-tab-bar-item>
+  <i-tab-bar-item key="mine" icon="mine" current-icon="mine_fill" title="我的"></i-tab-bar-item>
 </i-tab-bar>
+
+<i-modal visible="{{ visibleDlg }}" bind:ok="handleDlgClose" bind:cancel="handleDlgClose">
+  <view>请您补充{{hintDlginfo}}</view>
+</i-modal>
+<i-modal visible="{{ visiblePass }}" bind:ok="handlePassClose" bind:cancel="handlePassClose">
+  <view>对不起，您两次输入的新密码不一致！</view>
+</i-modal>
+
+<i-message id="message" />
