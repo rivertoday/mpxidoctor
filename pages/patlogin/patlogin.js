@@ -33,6 +33,7 @@ Page({
 
   patlogin: function () {
     let that = this
+    console.log(">>>pat login with mobile " + that.data.patmobile + " and password " + that.data.password)
     that.myLogin().then(function(res){
       console.log(">>>patlogin "+res)
       if (res.indexOf("invalid")!=-1) {

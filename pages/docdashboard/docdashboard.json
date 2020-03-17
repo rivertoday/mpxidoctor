@@ -16,5 +16,5 @@
     "i-message": "../../dist/message/index",
     "i-modal": "../../dist/modal/index"
   },
-  "navigationBarTitleText": "医生工作站"
+  "navigationBarTitleText": "专家工作站"
 }

@@ -4,7 +4,7 @@
 </i-notice-bar>
 <i-row>
   <i-input title="手机：" type="number" bind:blur="inputMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
-  <i-input title="密码：" type="password" bind:blur="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您设置的密码" />
+  <i-input title="密码：" type="password" bind:change="inputPasswordEvent" mode="wrapped" maxlength="20" placeholder="请填写您设置的密码" />
 </i-row>
 <i-row>
   <i-col span="12" i-class="col-class">
