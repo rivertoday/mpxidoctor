@@ -126,6 +126,14 @@ Page({
     })
   },
 
+  handleImagePreview(e) {
+    let that = this
+    wx.previewImage({
+      current: that.data.docdetails.qrcode, //当前预览的图片
+      urls: [that.data.docdetails.qrcode,], //所有要预览的图片
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */

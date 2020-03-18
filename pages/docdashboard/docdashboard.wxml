@@ -6,7 +6,7 @@
 </i-notice-bar>
 
 <view wx:if="{{tab_activity}}">
-<i-divider content="患者向您发起的咨询请求" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
+  <i-divider content="患者向您发起的咨询请求" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
   <i-cell-group>
     <block wx:for="{{consults}}" wx:key="*this">
       <i-cell title="{{tools.sub(item.desc,0,6)}}" value="{{tools.sub(item.created_time,0,19)}}" is-link url="/pages/answer/answer?consultid={{item.pk}}">
@@ -34,11 +34,19 @@
   </i-row>
   <i-divider content="您的详细信息" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
   <i-row>
-    <text>{{docdetails.username}}</text>
+    <text>{{docdetails.username}}  {{docdetails.sex}}</text>
   </i-row>
   <i-row>
-    <text>{{docdetails.sex}}</text>
+    <text>下面是您的宣传二维码，您可以点击它预览保存到您手机，在微信群或者朋友圈中发送，请大家扫码向您咨询</text>
   </i-row>
+  <view class="publish_imgs_area">
+    <!-- 图片 -->
+    <view class="imgs_area">
+      <view class="image_item">
+        <image class="image_content" src="{{docdetails.qrcode}}" mode="aspectFill" bindtap="handleImagePreview" />
+      </view>
+    </view>
+  </view>
 </view>
 
 <i-tab-bar current="{{ currenttab }}" color="#228B22" fixed="true" bindchange="handleTabChange">
