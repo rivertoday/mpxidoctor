@@ -60,7 +60,7 @@
 <i-row>
   <i-divider content="请牢记您的密码" color="#2d8cf0" lineColor="#2d8cf0"></i-divider>
   <i-input title="密码" type="password" bind:blur="inputDocPassEvent" mode="wrapped" maxlength="20" placeholder="请设置您的登录密码" />
-  <i-input title="确认密码" type="password" bind:blur="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码" />
+  <i-input title="确认密码" type="password" bind:change="inputDocPass2Event" mode="wrapped" maxlength="20" placeholder="请再次输入你设置的密码" />
 </i-row>
 <i-row>
   <view>

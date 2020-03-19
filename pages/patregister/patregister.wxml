@@ -4,7 +4,7 @@
 </i-notice-bar>
 <i-row>
   <i-input title="您的姓名" type="textarea" bind:blur="inputPatNameEvent" mode="wrapped" maxlength="20" placeholder="请填写您的姓名" />
-  <i-input title="您的手机" type="number" bind:blur="inputPatMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
+  <i-input title="您的手机" type="number" bind:change="inputPatMobileEvent" mode="wrapped" maxlength="20" placeholder="请填写您的手机号" />
   <i-panel title="您的性别">
   <text>您的性别</text>
     <i-radio-group current="{{currentsex}}" bindchange="handlePatSexChange">

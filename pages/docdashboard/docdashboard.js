@@ -129,8 +129,8 @@ Page({
   handleImagePreview(e) {
     let that = this
     wx.previewImage({
-      current: that.data.docdetails.qrcode, //当前预览的图片
-      urls: [that.data.docdetails.qrcode,], //所有要预览的图片
+      current: that.data.docdetails.broad_img, //当前预览的图片
+      urls: [that.data.docdetails.broad_img,], //所有要预览的图片
     })
   },
 
