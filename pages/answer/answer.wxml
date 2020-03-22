@@ -5,9 +5,11 @@
 
 <i-card title="{{patname}}  患者" extra="{{consultdetail.created_time}}" thumb="../../images/patient.png">
   <view slot="content">
-    <i-row><i-icon type="document" size="28" color="#80848f" />患者的基本信息：</i-row>
+    <i-row>
+      <i-icon type="document" size="28" color="#80848f" />患者的基本信息：</i-row>
     <i-row>性别：{{patsex}}, 年龄：{{patage}}岁</i-row>
-    <i-row><i-icon type="feedback" size="28" color="#80848f" />患者的咨询描述：</i-row>
+    <i-row>
+      <i-icon type="feedback" size="28" color="#80848f" />患者的咨询描述：</i-row>
     <i-row>{{consultdetail.desc}}</i-row>
     <view class="publish_imgs_area">
       <!-- 图片 -->
@@ -17,14 +19,123 @@
         </view>
       </view>
     </view>
-    <i-row><i-icon type="editor" size="28" color="#80848f" />您的宝贵建议：</i-row>
-    <i-row>
-      <i-input title="回复" type="textarea" bind:blur="inputAnswerEvent" mode="wrapped" maxlength="300" placeholder="{{consultdetail.answer}}" /></i-row>
-    <i-row>
-      <view wx:if="{{isReplied==false}}">
+
+    <view wx:if="{{consultdetail.is_answered}}">
+      <i-row>
+        <i-icon type="editor" size="28" color="#80848f" />您的宝贵建议：</i-row>
+      <i-row>{{consultdetail.answer}}</i-row>
+    </view>
+    <view wx:else>
+      <i-row>
+        <i-input title="回复" type="textarea" bind:change="inputAnswerEvent" mode="wrapped" maxlength="300" placeholder="请填写您的宝贵建议" />
+      </i-row>
+      <i-row>
         <i-button bind:click="updateConsult" type="success" size="small">提交回复</i-button>
+      </i-row>
+    </view>
+
+    <view wx:if="{{showrounds[0]}}">
+      <i-row>
+        <i-icon type="feedback" size="28" color="#80848f" />追问一：</i-row>
+      <i-row>{{qarounds[0].question}}</i-row>
+      <view wx:if="{{qarounds[0].answer}}">
+        <i-row>
+          <i-icon type="document" size="28" color="#80848f" />回复一：
+        </i-row>
+        <i-row>{{qarounds[0].answer}}</i-row>
       </view>
-    </i-row>
+      <view wx:else>
+        <i-row>
+          <i-input title="回复一" type="textarea" bind:change="inputQA1Event" mode="wrapped" maxlength="300" placeholder="您可以回复" />
+        </i-row>
+        <i-row>
+          <i-button bind:click="SubmitA1" type="success" size="small">提交</i-button>
+        </i-row>
+      </view>
+    </view>
+
+    <view wx:if="{{showrounds[1]}}">
+      <i-row>
+        <i-icon type="feedback" size="28" color="#80848f" />追问二：</i-row>
+      <i-row>{{qarounds[1].question}}</i-row>
+      <view wx:if="{{qarounds[1].answer}}">
+        <i-row>
+          <i-icon type="document" size="28" color="#80848f" />回复二：
+        </i-row>
+        <i-row>{{qarounds[1].answer}}</i-row>
+      </view>
+      <view wx:else>
+        <i-row>
+          <i-input title="回复二" type="textarea" bind:change="inputQA2Event" mode="wrapped" maxlength="300" placeholder="您可以回复" />
+        </i-row>
+        <i-row>
+          <i-button bind:click="SubmitA2" type="success" size="small">提交</i-button>
+        </i-row>
+      </view>
+    </view>
+
+    <view wx:if="{{showrounds[2]}}">
+      <i-row>
+        <i-icon type="feedback" size="28" color="#80848f" />追问三：</i-row>
+      <i-row>{{qarounds[2].question}}</i-row>
+      <view wx:if="{{qarounds[2].answer}}">
+        <i-row>
+          <i-icon type="document" size="28" color="#80848f" />回复三：
+        </i-row>
+        <i-row>{{qarounds[2].answer}}</i-row>
+      </view>
+      <view wx:else>
+        <i-row>
+          <i-input title="回复三" type="textarea" bind:change="inputQA3Event" mode="wrapped" maxlength="300" placeholder="您可以回复" />
+        </i-row>
+        <i-row>
+          <i-button bind:click="SubmitA3" type="success" size="small">提交</i-button>
+        </i-row>
+      </view>
+    </view>
+
+    <view wx:if="{{showrounds[3]}}">
+      <i-row>
+        <i-icon type="feedback" size="28" color="#80848f" />追问四：</i-row>
+      <i-row>{{qarounds[3].question}}</i-row>
+      <view wx:if="{{qarounds[3].answer}}">
+        <i-row>
+          <i-icon type="document" size="28" color="#80848f" />回复四：
+        </i-row>
+        <i-row>{{qarounds[3].answer}}</i-row>
+      </view>
+      <view wx:else>
+        <i-row>
+          <i-input title="回复四" type="textarea" bind:change="inputQA4Event" mode="wrapped" maxlength="300" placeholder="您可以回复" />
+        </i-row>
+        <i-row>
+          <i-button bind:click="SubmitA4" type="success" size="small">提交</i-button>
+        </i-row>
+      </view>
+    </view>
+
+    <view wx:if="{{showrounds[4]}}">
+      <i-row>
+        <i-icon type="feedback" size="28" color="#80848f" />追问五：</i-row>
+      <i-row>{{qarounds[4].question}}</i-row>
+      <view wx:if="{{qarounds[4].answer}}">
+        <i-row>
+          <i-icon type="document" size="28" color="#80848f" />回复五：
+        </i-row>
+        <i-row>{{qarounds[4].answer}}</i-row>
+      </view>
+      <view wx:else>
+        <i-row>
+          <i-input title="回复五" type="textarea" bind:change="inputQA5Event" mode="wrapped" maxlength="300" placeholder="您可以回复" />
+        </i-row>
+        <i-row>
+          <i-button bind:click="SubmitA5" type="success" size="small">提交</i-button>
+        </i-row>
+      </view>
+    </view>
+
   </view>
   <view slot="footer">{{consultdetail.status}}</view>
 </i-card>
+
+<i-message id="message" />

@@ -13,6 +13,9 @@
         <block wx:if="{{item.status=='已经回答'}}">
           <i-icon slot="icon" type="activity" size="28" color="#228B22" />
         </block>
+        <block wx:elif="{{item.status=='追问中'}}">
+          <i-icon slot="icon" type="activity" size="28" color="#FFB90F" />
+        </block>
         <block wx:else>
           <i-icon slot="icon" type="activity" size="28" color="#FF3030" />
         </block>
