@@ -17,7 +17,7 @@
       </view>
     </view>
     <i-row>
-      <i-icon type="document" size="28" color="#80848f" />医生的回复建议：</i-row>
+      <i-icon type="document" size="28" color="#80848f" />专家的回复建议：</i-row>
     <view wx:if="{{consultdetail.answer}}">
       <i-row>{{consultdetail.answer}}</i-row>
     </view>
